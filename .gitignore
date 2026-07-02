@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+build/
+tsconfig.tsbuildinfo
+
+# Local data (private — never commit)
+data/journal.db
+data/journal.db-*
+data/*.db
+data/*.db-*
+data/uploads/
+# real broker exports used as parser fixtures
+data/samples/
+
+# Env
+.env
+.env.local
+.env*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+.vercel

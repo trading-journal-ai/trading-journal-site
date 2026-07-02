@@ -1,0 +1,37 @@
+{
+  "name": "trading-journal-site",
+  "version": "0.1.0",
+  "description": "Marketing website for Trading Journal AI.",
+  "private": true,
+  "homepage": "https://trading-journal.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trading-journal-ai/trading-journal-site.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --cache --cache-strategy content --cache-location .next/cache/eslint/.eslintcache",
+    "typecheck": "tsc --noEmit --pretty false",
+    "verify:quick": "npm run lint",
+    "verify:types": "npm run verify:quick && npm run typecheck",
+    "verify:full": "npm run verify:quick && npm run build"
+  },
+  "dependencies": {
+    "next": "16.2.9",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
