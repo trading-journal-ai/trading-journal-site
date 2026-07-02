@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const githubUrl = "https://github.com/trading-journal-ai/trading-journal";
-const demoUrl = process.env.NEXT_PUBLIC_DEMO_URL ?? "https://trading-journal.ai/demo";
+const demoUrl = process.env.NEXT_PUBLIC_DEMO_URL ?? "https://demo.trading-journal.ai/demo";
 
 const installCommand = `git clone ${githubUrl}.git
 cd trading-journal
@@ -865,7 +865,7 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
         <div className="flex flex-1 justify-center">
           <div className="flex items-center gap-1.5 rounded-md border border-[var(--hairline)] bg-[#0b0d12] px-3.5 py-1 font-mono text-xs text-[var(--muted)]">
             <LockGlyph />
-            trading-journal.ai/demo
+            demo.trading-journal.ai/demo
           </div>
         </div>
         <div className="w-[52px]" />
