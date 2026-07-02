@@ -19,4 +19,4 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - `trading-journal-site`: marketing website only.
 - `trading-journal`: actual app, including local/live mode and hosted demo mode.
-- Demo CTA target: `https://demo.trading-journal.ai`.
+- Demo CTA target defaults to `https://trading-journal.ai/demo`. Set `NEXT_PUBLIC_DEMO_URL` when the app demo moves to its own subdomain.
