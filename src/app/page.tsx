@@ -114,7 +114,7 @@ function Hero() {
     <section className="relative isolate overflow-hidden border-b border-[var(--hairline)]">
       <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-30 hidden h-[620px] overflow-hidden md:block md:h-[670px] lg:h-[720px]">
         <div
-          className="absolute inset-0 bg-[length:auto_94%] bg-[center_top] bg-no-repeat opacity-85 md:bg-[right_top]"
+          className="absolute left-1/2 top-0 h-full w-[calc(100%-3rem)] max-w-[1136px] -translate-x-1/2 bg-[length:auto_94%] bg-[right_top] bg-no-repeat opacity-85 md:w-[calc(100%-4rem)]"
           style={{ backgroundImage: "url(/landing-page/trading-journal-hero.png)" }}
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,#0b0d12_0%,rgba(11,13,18,.98)_30%,rgba(11,13,18,.8)_52%,rgba(11,13,18,.35)_78%,rgba(11,13,18,.18)_100%)]" />
