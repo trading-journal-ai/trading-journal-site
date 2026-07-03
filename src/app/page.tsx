@@ -119,7 +119,7 @@ function Hero() {
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,#0b0d12_0%,rgba(11,13,18,.98)_30%,rgba(11,13,18,.8)_52%,rgba(11,13,18,.35)_78%,rgba(11,13,18,.18)_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,13,18,0)_0%,rgba(11,13,18,.24)_58%,#0b0d12_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_36%,rgba(89,230,158,.12),transparent_34%)]" />
+        <div className="absolute left-1/2 top-0 h-[calc(100%-40px)] w-[calc(100%-3rem)] max-w-[1136px] -translate-x-1/2 bg-[radial-gradient(circle_at_72%_36%,rgba(89,230,158,.12),transparent_34%)] md:w-[calc(100%-4rem)]" />
       </div>
 
       <div className="mx-auto w-full max-w-[1200px] px-6 pb-12 pt-16 md:px-8 md:pt-[72px] lg:pb-14">
