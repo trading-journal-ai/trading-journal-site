@@ -53,7 +53,7 @@ const localCards = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen overflow-hidden bg-[#0b0d12] text-[var(--foreground)]">
+    <div className="min-h-screen bg-[#0b0d12] text-[var(--foreground)]">
       <SiteHeader />
 
       <main>
@@ -84,7 +84,7 @@ function SiteHeader() {
             The review habit
           </a>
           <a href="#coach" className="hidden transition-colors hover:text-[var(--foreground)] md:inline">
-            Playbook + coach
+            Coach
           </a>
           <a href="#local" className="hidden transition-colors hover:text-[var(--foreground)] lg:inline">
             Local-first
