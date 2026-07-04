@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const githubUrl = "https://github.com/trading-journal-ai/trading-journal";
 const demoUrl = process.env.NEXT_PUBLIC_DEMO_URL ?? "https://demo.trading-journal.ai/demo";
@@ -355,30 +355,74 @@ function CoachSection() {
 }
 
 function LearningLoopSection() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [loopEntered, setLoopEntered] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || loopEntered) return;
+
+    if (!("IntersectionObserver" in window)) {
+      const fallbackTimer = setTimeout(() => setLoopEntered(true), 0);
+      return () => clearTimeout(fallbackTimer);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setLoopEntered(true);
+        observer.disconnect();
+      },
+      {
+        rootMargin: "0px 0px -18% 0px",
+        threshold: 0.18,
+      },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [loopEntered]);
+
   const loopSurfaces = [
     {
+      number: "01",
       label: "Daily recap",
       title: "Journal",
       body: "The day's story: trades, check-ins, emotions, process notes, charts, and market context.",
-      className: "left-[68px] top-[44px]",
+      className: "left-[104px] top-[40px]",
+      radiusClassName: "rounded-[10px_10px_0_10px]",
+      pulseClassName: "tj-loop-step-3",
+      enterClassName: "tj-loop-card-enter-tl",
     },
     {
+      number: "02",
       label: "Trade feedback",
       title: "Coach",
       body: "Turns journal context and trade evidence into lessons, rule candidates, and examples.",
-      className: "left-[744px] top-[44px]",
+      className: "left-[744px] top-[40px]",
+      radiusClassName: "rounded-[10px_10px_10px_0]",
+      pulseClassName: "tj-loop-step-0",
+      enterClassName: "tj-loop-card-enter-tr",
     },
     {
+      number: "03",
       label: "Trading standards",
       title: "Playbook",
       body: "Keeps the rules, setups, examples, and lessons that define how you want to trade.",
-      className: "left-[744px] top-[592px]",
+      className: "left-[744px] top-[584px]",
+      radiusClassName: "rounded-[0_10px_10px_10px]",
+      pulseClassName: "tj-loop-step-1",
+      enterClassName: "tj-loop-card-enter-br",
     },
     {
+      number: "04",
       label: "Session focus",
       title: "Dashboard",
       body: "Brings the current state, active rules, and carry-forward items into the next session.",
-      className: "left-[68px] top-[592px]",
+      className: "left-[104px] top-[584px]",
+      radiusClassName: "rounded-[10px_0_10px_10px]",
+      pulseClassName: "tj-loop-step-2",
+      enterClassName: "tj-loop-card-enter-bl",
     },
   ];
 
@@ -406,7 +450,11 @@ function LearningLoopSection() {
   ];
 
   return (
-    <section id="learning-loop" className="scroll-mt-24 border-t border-[var(--hairline)]">
+    <section
+      ref={sectionRef}
+      id="learning-loop"
+      className={`tj-learning-loop scroll-mt-24 border-t border-[var(--hairline)] ${loopEntered ? "tj-loop-entered" : ""}`}
+    >
       <div className="mx-auto w-full max-w-[1200px] px-6 py-24 md:px-8">
         <div className="max-w-[760px]">
           <SectionEyebrow className="text-[var(--green)]">Review system</SectionEyebrow>
@@ -420,19 +468,19 @@ function LearningLoopSection() {
           </p>
         </div>
 
-        <div className="relative mb-16 mt-5 overflow-visible px-4 pb-0 pt-0 sm:px-6 lg:px-8">
+        <div className="relative mt-10 overflow-visible">
           <div
             aria-hidden="true"
-            className="absolute left-1/2 top-[72px] h-[760px] w-[930px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(29,178,107,.055)_0%,rgba(29,178,107,.04)_38%,rgba(16,22,24,.026)_62%,transparent_82%)] blur-[18px]"
+            className="tj-loop-glow-intro absolute left-1/2 top-1/2 hidden h-[580px] w-[580px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(29,178,107,.08)_0%,rgba(29,178,107,.045)_42%,transparent_72%)] blur-[18px] xl:block"
           />
-          <div className="relative mx-auto hidden h-[805px] max-w-[1080px] xl:block">
+          <div className="relative mx-auto hidden h-[800px] max-w-[1120px] xl:block">
             <LoopOrbitSvg
               glowId="landing-loop-soft-glow-desktop"
-              className="absolute inset-0 h-[805px] w-full overflow-visible"
+              className="absolute inset-0 h-[800px] w-full overflow-visible"
             />
 
-            <div className="absolute left-1/2 top-[416px] w-[360px] -translate-x-1/2 -translate-y-1/2 text-center">
-              <h3 className="text-[34px] font-semibold leading-[1.12] tracking-[-0.02em]">
+            <div className="absolute left-1/2 top-[400px] w-[300px] -translate-x-1/2 -translate-y-1/2 text-center">
+              <h3 className="tj-loop-title-intro text-[30px] font-semibold leading-[1.12] tracking-[-0.02em]">
                 Trading Journal AI
                 <br />
                 Review System
@@ -444,18 +492,19 @@ function LearningLoopSection() {
             ))}
           </div>
 
-          <div className="relative mx-auto h-[410px] max-w-[430px] overflow-visible sm:h-[500px] lg:h-[650px] lg:max-w-[1000px] xl:hidden">
+          <div className="relative mx-auto aspect-square w-full max-w-[460px] overflow-visible xl:hidden">
             <div
               aria-hidden="true"
-              className="absolute left-1/2 top-1/2 h-[440px] w-[440px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(29,178,107,.075)_0%,rgba(29,178,107,.04)_45%,transparent_74%)] blur-[14px] sm:h-[520px] sm:w-[520px]"
+              className="tj-loop-glow-intro absolute left-1/2 top-1/2 h-[118%] w-[118%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(29,178,107,.075)_0%,rgba(29,178,107,.04)_45%,transparent_74%)] blur-[14px]"
             />
             <LoopOrbitSvg
               glowId="landing-loop-soft-glow-mobile"
-              className="absolute left-1/2 top-1/2 h-[440px] w-[590px] -translate-x-1/2 -translate-y-1/2 overflow-visible sm:h-[520px] sm:w-[700px] lg:h-[690px] lg:w-[930px]"
+              className="absolute inset-0 h-full w-full overflow-visible"
+              compact
               showNumbers
             />
-            <div className="absolute left-1/2 top-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2 text-center sm:w-[340px] lg:w-[520px]">
-              <h3 className="text-[28px] font-semibold leading-[1.12] tracking-[-0.02em] sm:text-[32px] lg:text-[48px]">
+            <div className="absolute left-1/2 top-1/2 w-[64%] -translate-x-1/2 -translate-y-1/2 text-center">
+              <h3 className="tj-loop-title-intro text-[clamp(18px,5.8vw,27px)] font-semibold leading-[1.12] tracking-[-0.02em]">
                 Trading Journal AI
                 <br />
                 Review System
@@ -464,7 +513,7 @@ function LearningLoopSection() {
           </div>
         </div>
 
-        <div className="mx-auto mt-8 grid w-full max-w-[760px] grid-cols-2 justify-items-center gap-x-5 gap-y-8 border-t border-[var(--hairline)] pt-16 sm:gap-x-8 md:grid-cols-2 lg:max-w-none lg:grid-cols-4 lg:justify-items-start lg:gap-x-10">
+        <div className="mx-auto mt-16 grid w-full max-w-[760px] grid-cols-2 justify-items-center gap-x-5 gap-y-8 border-t border-[var(--hairline)] pt-16 sm:gap-x-8 md:grid-cols-2 lg:max-w-none lg:grid-cols-4 lg:justify-items-start lg:gap-x-10">
           {surfaceNotes.map((note) => (
             <div key={note.label} className="max-w-[160px] sm:max-w-[240px] lg:max-w-[280px]">
               <span className="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-[var(--muted)]">
@@ -485,81 +534,163 @@ function LearningLoopSection() {
 function LoopOrbitSvg({
   glowId,
   className,
+  compact = false,
   showNumbers = false,
 }: {
   glowId: string;
   className: string;
+  compact?: boolean;
   showNumbers?: boolean;
 }) {
-  const numberNodes = [
-    ["01", 302, 178],
-    ["02", 778, 178],
-    ["03", 778, 654],
-    ["04", 302, 654],
+  const softGlowId = `${glowId}-soft`;
+  const brightGlowId = `${glowId}-bright`;
+  const arcs = [
+    { d: "M406,246 A218 218 0 0 1 714,246", stepClassName: "tj-loop-step-0" },
+    { d: "M714,246 A218 218 0 0 1 714,554", stepClassName: "tj-loop-step-1" },
+    { d: "M714,554 A218 218 0 0 1 406,554", stepClassName: "tj-loop-step-2" },
+    { d: "M406,554 A218 218 0 0 1 406,246", stepClassName: "tj-loop-step-3" },
+  ];
+  const connectors = [
+    ["406", "246", "372", "212"],
+    ["714", "246", "748", "212"],
+    ["714", "554", "748", "588"],
+    ["406", "554", "372", "588"],
   ] as const;
+  const nodes = [
+    { number: "01", x: 406, y: 246, stepClassName: "tj-loop-step-3" },
+    { number: "02", x: 714, y: 246, stepClassName: "tj-loop-step-0" },
+    { number: "03", x: 714, y: 554, stepClassName: "tj-loop-step-1" },
+    { number: "04", x: 406, y: 554, stepClassName: "tj-loop-step-2" },
+  ];
 
   return (
-    <svg className={className} viewBox="0 0 1080 805" aria-hidden="true">
+    <svg className={className} viewBox={compact ? "302 142 516 516" : "0 0 1120 800"} aria-hidden="true">
       <defs>
-        <filter id={glowId} x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="1.35" result="blur" />
+        <filter id={softGlowId} x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="1.4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id={brightGlowId} x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="2.4" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
       </defs>
-      <g className="tj-loop-orbit" style={{ transformOrigin: "540px 416px" }}>
-        <circle className="tj-loop-dots" cx="540" cy="416" r="242" />
-        <circle className="tj-loop-grain" cx="540" cy="416" r="336" />
-        <circle className="tj-loop-dashes" cx="540" cy="416" r="220" />
+
+      {!compact ? (
+        <g className="tj-loop-settle-intro" style={{ transformOrigin: "560px 400px" }}>
+          <circle cx="560" cy="400" r="296" fill="none" stroke="rgba(255,255,255,.07)" strokeWidth="1" />
+          <circle cx="560" cy="400" r="326" fill="none" stroke="rgba(255,255,255,.09)" strokeWidth="1" />
+          <g className="tj-loop-outer-mid-spin">
+            <circle className="tj-loop-outer-mid-dots" cx="560" cy="400" r="312" />
+            <circle className="tj-loop-outer-mid-ticks" cx="560" cy="400" r="312" />
+          </g>
+          <circle className="tj-loop-outer-dash" cx="560" cy="400" r="348" />
+        </g>
+      ) : null}
+
+      <g className="tj-loop-scale-intro" style={{ transformOrigin: "560px 400px" }}>
+        <circle className="tj-loop-fade-intro tj-loop-fade-delay-3" cx="560" cy="400" r="218" fill="none" stroke="rgba(255,255,255,.10)" strokeWidth="1.25" />
+        <circle className="tj-loop-dots tj-loop-fade-intro tj-loop-fade-delay-2" cx="560" cy="400" r="184" />
+        <circle className="tj-loop-grain tj-loop-fade-intro tj-loop-fade-delay-3" cx="560" cy="400" r="218" />
+        <circle className="tj-loop-dashes tj-loop-fade-intro tj-loop-fade-delay-1" cx="560" cy="400" r="165" />
+        <circle className="tj-loop-pinwheel tj-loop-fade-intro" cx="560" cy="400" r="140" />
+        <circle className="tj-loop-breath tj-loop-fade-intro" cx="560" cy="400" r="88" fill="none" stroke="rgba(29,178,107,.6)" strokeWidth="1" />
       </g>
-      <circle cx="540" cy="416" r="336" fill="none" stroke="var(--hairline)" strokeWidth="1.5" strokeDasharray="2 7" />
-      <g fill="none" strokeLinecap="round">
-        <path d="M302,178 A336 336 0 0 1 778,178" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
-        <path d="M778,178 A336 336 0 0 1 778,654" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
-        <path d="M778,654 A336 336 0 0 1 302,654" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
-        <path d="M302,654 A336 336 0 0 1 302,178" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
+
+      <g className="tj-loop-fade-intro tj-loop-fade-delay-4">
+        {arcs.map((arc) => (
+          <path key={`base-${arc.d}`} className="tj-loop-arc" d={arc.d} />
+        ))}
       </g>
-      <g filter={`url(#${glowId})`}>
-        <path className="tj-loop-flow tj-loop-flow-1" pathLength="1" d="M302,178 A336 336 0 0 1 778,178" />
-        <path className="tj-loop-flow tj-loop-flow-2" pathLength="1" d="M778,178 A336 336 0 0 1 778,654" />
-        <path className="tj-loop-flow tj-loop-flow-3" pathLength="1" d="M778,654 A336 336 0 0 1 302,654" />
-        <path className="tj-loop-flow tj-loop-flow-4" pathLength="1" d="M302,654 A336 336 0 0 1 302,178" />
+
+      <g filter={`url(#${softGlowId})`}>
+        {arcs.map((arc) => (
+          <path key={`trail-${arc.d}`} className={`tj-loop-trail ${arc.stepClassName}`} pathLength="100" d={arc.d} />
+        ))}
       </g>
-      {showNumbers ? (
-        <g className="font-mono text-[18px] font-bold tracking-[0.02em]" textAnchor="middle">
-          {numberNodes.map(([number, x, y]) => (
-            <g key={number}>
-              <circle cx={x} cy={y} r="24" fill="#0b0d12" stroke="var(--green)" strokeWidth="2.25" />
-              <text x={x} y={y} dy="0.34em" fill="var(--green)">
-                {number}
-              </text>
-            </g>
+
+      <g filter={`url(#${brightGlowId})`}>
+        {arcs.map((arc) => (
+          <path key={`comet-${arc.d}`} className={`tj-loop-comet ${arc.stepClassName}`} pathLength="100" d={arc.d} />
+        ))}
+      </g>
+
+      {!compact ? (
+        <g className="tj-loop-fade-intro tj-loop-fade-delay-4">
+          {connectors.map(([x1, y1, x2, y2]) => (
+            <line
+              key={`${x1}-${y1}-${x2}-${y2}`}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
+              stroke="rgba(29,178,107,.5)"
+              strokeWidth="1.5"
+            />
           ))}
         </g>
       ) : null}
+
+      <g className="font-mono text-[12.5px] font-semibold tracking-[0.05em]" textAnchor="middle">
+        {nodes.map((node, index) => (
+          <g key={node.number} className={`tj-loop-node-pop tj-loop-node-pop-${index}`}>
+            <circle className={`tj-loop-node-ripple ${node.stepClassName}`} cx={node.x} cy={node.y} r="18" />
+            <circle cx={node.x} cy={node.y} r={showNumbers ? "18" : "16"} fill="#0b0d12" stroke="rgba(29,178,107,.55)" strokeWidth="1.5" />
+            <circle className={`tj-loop-node-flare ${node.stepClassName}`} cx={node.x} cy={node.y} r="16" filter={`url(#${softGlowId})`} />
+            <text x={node.x} y={node.y} dy="0.36em" fill={showNumbers ? "var(--green)" : "var(--foreground)"}>
+              {node.number}
+            </text>
+          </g>
+          ))}
+      </g>
     </svg>
   );
 }
 
 function LoopDiagramCard({
+  number,
   label,
   title,
   body,
   className = "",
+  radiusClassName,
+  pulseClassName,
+  enterClassName,
+  mobile = false,
 }: {
+  number: string;
   label: string;
   title: string;
   body: string;
   className?: string;
+  radiusClassName: string;
+  pulseClassName: string;
+  enterClassName: string;
+  mobile?: boolean;
 }) {
   return (
-    <article className={`${className} rounded-2xl border border-[var(--border)] bg-[#0b0d12] p-6 shadow-[0_22px_54px_-32px_rgba(0,0,0,.85)] lg:absolute lg:z-10 lg:w-[268px]`}>
+    <article className={`${mobile ? "relative" : `${className} ${enterClassName} absolute z-10 w-[272px]`} ${radiusClassName} group border border-[var(--border)] bg-[#0b0d12] p-6 shadow-[0_22px_54px_-32px_rgba(0,0,0,.85)] transition-colors hover:border-[rgba(110,231,168,.45)]`}>
+      <div
+        aria-hidden="true"
+        className={`tj-loop-card-glow ${pulseClassName} absolute inset-[-1px] ${radiusClassName} border border-[rgba(126,240,178,.6)] shadow-[0_0_0_1px_rgba(29,178,107,.16),0_10px_40px_-10px_rgba(29,178,107,.28)]`}
+      />
       <div>
-        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--green)]">
-          {label}
-        </span>
+        <div className="flex items-center gap-2">
+          {mobile ? (
+            <span className="inline-flex items-center justify-center rounded-[5px] border border-[rgba(29,178,107,.35)] px-1.5 py-0.5 font-mono text-[10px] font-semibold leading-none tracking-[0.06em] text-[#34d27b]">
+              {number}
+            </span>
+          ) : null}
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--green)]">
+            {label}
+          </span>
+        </div>
         <h4 className="mt-0.5 text-[22px] font-semibold leading-tight tracking-[-0.015em]">
           {title}
         </h4>
