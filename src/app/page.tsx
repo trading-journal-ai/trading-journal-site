@@ -13,7 +13,7 @@ cd trading-journal
 const walkthroughSteps = [
   {
     kicker: "Recap",
-    desc: "Start with the day's story.",
+    desc: "Start with today's story.",
     Screen: RecapScreen,
   },
   {
@@ -84,7 +84,7 @@ function SiteHeader() {
             The review habit
           </a>
           <a href="#coach" className="hidden transition-colors hover:text-[var(--foreground)] md:inline">
-            AI coach
+            Playbook + coach
           </a>
           <a href="#local" className="hidden transition-colors hover:text-[var(--foreground)] lg:inline">
             Local-first
@@ -244,13 +244,19 @@ function ReviewHabit() {
         <div className="max-w-[760px]">
           <SectionEyebrow className="text-[var(--green)]">The review habit</SectionEyebrow>
           <h2 className="mt-[18px] text-balance text-[32px] font-semibold leading-[1.08] tracking-[-0.025em] md:text-[40px]">
-            Review faster. Gain insights.
+            Review faster. Build your playbook.
             <br />
-            Refine your process.
+            Refine your trades.
           </h2>
           <p className="mt-[22px] max-w-[640px] text-pretty text-[17.5px] leading-[1.6] text-[var(--prose,#99a3b1)]">
-            Trading Journal AI brings notes, charts, P&amp;L, tags, and coaching into one
-            journal-first workflow.
+            Lessons shouldn&apos;t disappear into archived notes. Trading days are full of
+            small moments that are easy to lose: the hesitation before an entry, the
+            rule you bent, the cue that helped you stop.
+          </p>
+          <p className="mt-4 max-w-[640px] text-pretty text-[17.5px] leading-[1.6] text-[var(--prose,#99a3b1)]">
+            Trading Journal AI brings notes, charts, P&amp;L, tags, playbook examples,
+            and coaching into one journal-first workflow, so repeated lessons can become
+            standards you actually trade from.
           </p>
         </div>
 
@@ -268,8 +274,8 @@ function ReviewHabit() {
             </h3>
             <p className="mt-4 text-pretty text-base leading-[1.6] text-[var(--prose,#99a3b1)]">
               Open a day and the recap sits first: market read, execution, lesson. The
-              trades and P&amp;L sit beside it for reference, not as the headline. The
-              week and month are just containers you scroll back through.
+              trades and P&amp;L sit beside it for reference, not as the headline. When a
+              lesson repeats, it has a place to become a rule, example, or playbook note.
             </p>
           </div>
         </div>
@@ -283,8 +289,9 @@ function ReviewHabit() {
             </h3>
             <p className="mt-4 text-pretty text-base leading-[1.6] text-[var(--prose,#99a3b1)]">
               Write a sentence, then tap the pills that fit: one quality call,
-              plus the process and emotion behind it. The same vocabulary every session,
-              so patterns become searchable instead of buried in prose.
+              plus the process and emotion behind it. The same vocabulary every
+              session becomes the raw material for your playbook, so patterns and
+              examples are easy to find later.
             </p>
             <div className="mt-[22px] flex flex-wrap gap-2">
               <Pill label="Best setup" tone="positive" active />
@@ -307,7 +314,7 @@ function CoachSection() {
         <div>
           <div className="flex items-center gap-2.5">
             <SparkIcon />
-            <SectionEyebrow className="text-[var(--blue)]">The AI in Trading Journal AI</SectionEyebrow>
+            <SectionEyebrow className="text-[var(--blue)]">AI coach, grounded in your playbook</SectionEyebrow>
             <span className="rounded border border-[var(--border)] px-1.5 py-0.5 font-mono text-[10.5px] text-[var(--muted)]">
               Preview
             </span>
@@ -316,15 +323,16 @@ function CoachSection() {
             A coach that guides you by <span className="text-[var(--blue)]">your</span> rules.
           </h2>
           <p className="mt-[22px] max-w-[520px] text-pretty text-[17px] leading-[1.62] text-[var(--prose,#99a3b1)]">
-            First you codify what an A+ trade looks like: the entry, risk, and
-            process criteria you already track as pills. Then the coach reads every
-            imported trade against that standard, flags where you drifted, and drafts the
-            note and recap in your voice.
+            First you codify what an A+ trade looks like: the setup, entry, risk,
+            process criteria, and examples you want to repeat. If your playbook is
+            still forming, the coach helps you turn review into clearer standards. Then
+            it reads each imported trade against that playbook, flags where you drifted,
+            and drafts the note and recap in your voice.
           </p>
           <div className="mt-[30px] space-y-4">
             {[
-              ["01", "Codify your edge", "Turn your process pills into the rubric your coach reviews against."],
-              ["02", "Review against it", "Each trade gets read against your own criteria, not generic advice."],
+              ["01", "Codify your edge", "Turn process tags, notes, rules, and best examples into your playbook."],
+              ["02", "Review against it", "Each trade gets read against your own standards, not generic advice."],
               ["03", "Draft, never auto-post", "The coach proposes the note and recap; you always edit before it saves."],
             ].map(([number, title, body]) => (
               <div key={number} className="grid grid-cols-[28px_1fr] gap-3.5">
@@ -347,24 +355,53 @@ function CoachSection() {
 }
 
 function LearningLoopSection() {
-  const surfaces = [
+  const loopSurfaces = [
     {
-      verb: "Captures the record",
+      label: "Daily recap",
       title: "Journal",
-      body: "The day's story: trades, recap, emotions, process notes, check-ins, charts, and the human context behind each decision.",
-      forward: "Recap context, unresolved patterns, and carry-forward items into coach review.",
+      body: "The day's story: trades, check-ins, emotions, process notes, charts, and market context.",
+      className: "left-[68px] top-[44px]",
     },
     {
-      verb: "Synthesizes",
+      label: "Trade feedback",
       title: "Coach",
-      body: "Reads journal context against trade evidence to say what worked, what broke, what mattered, and what to try next.",
-      forward: "A current experiment, focus, or risk cue into carry-forward.",
+      body: "Turns journal context and trade evidence into lessons, rule candidates, and examples.",
+      className: "left-[744px] top-[44px]",
     },
     {
-      verb: "Prompts & reminds",
+      label: "Trading standards",
+      title: "Playbook",
+      body: "Keeps the rules, setups, examples, and lessons that define how you want to trade.",
+      className: "left-[744px] top-[592px]",
+    },
+    {
+      label: "Session focus",
       title: "Dashboard",
-      body: "Brings the lesson into the next session with plans, resets, market reads, emotional check-ins, and rule reminders.",
-      forward: "Timestamped check-ins back into the daily recap; the next trading plan.",
+      body: "Brings the current state, active rules, and carry-forward items into the next session.",
+      className: "left-[68px] top-[592px]",
+    },
+  ];
+
+  const surfaceNotes = [
+    {
+      label: "Journal",
+      lead: "Captures the record",
+      body: "trades, check-ins, emotions, process notes, charts, and market context stay with the story of the session instead of disappearing into loose notes.",
+    },
+    {
+      label: "Coach",
+      lead: "Develops the feedback",
+      body: "review turns into focused lessons, rule candidates, and examples, especially while your playbook is still taking shape.",
+    },
+    {
+      label: "Playbook",
+      lead: "Accumulates standards",
+      body: "rules, setups, exceptions, and best examples become a working reference for how you want to trade.",
+    },
+    {
+      label: "Dashboard",
+      lead: "Orients the session",
+      body: "current focus, active rules, and carry-forward lessons come back before the next session, when they can still affect decisions.",
     },
   ];
 
@@ -372,26 +409,24 @@ function LearningLoopSection() {
     <section id="learning-loop" className="scroll-mt-24 border-t border-[var(--hairline)]">
       <div className="mx-auto w-full max-w-[1200px] px-6 py-24 md:px-8">
         <div className="max-w-[760px]">
-          <SectionEyebrow className="text-[var(--green)]">The learning loop</SectionEyebrow>
+          <SectionEyebrow className="text-[var(--green)]">Review system</SectionEyebrow>
           <h2 className="mt-[18px] max-w-[760px] text-balance text-[32px] font-semibold leading-[1.08] tracking-[-0.025em] md:text-[40px]">
-            Lessons shouldn&apos;t disappear into archived notes.
+            Four surfaces connected.
           </h2>
           <p className="mt-[22px] max-w-[720px] text-pretty text-[17px] leading-[1.62] text-[var(--prose,#99a3b1)]">
-            Trading days are full of small moments that are easy to lose: the
-            hesitation before an entry, the rule you bent, the cue that helped you stop.
-            The journal keeps those moments with the story of the day. The coach turns
-            them into a focused lesson, and the dashboard brings that lesson back into
-            the next session while capturing the next round of check-ins.
+            The journal captures the trading day, the coach turns review into feedback
+            and rule candidates, the playbook keeps the standards you are building, and
+            the dashboard carries the current focus back into the next session.
           </p>
         </div>
 
-        <div className="relative mt-14 overflow-hidden px-4 pb-0 pt-8 sm:px-6 lg:px-8">
+        <div className="relative mb-16 mt-5 overflow-hidden px-4 pb-0 pt-0 sm:px-6 lg:px-8">
           <div
             aria-hidden="true"
             className="absolute left-1/2 top-[72px] h-[760px] w-[930px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(29,178,107,.055)_0%,rgba(29,178,107,.04)_38%,rgba(16,22,24,.026)_62%,transparent_82%)] blur-[18px]"
           />
-          <div className="relative mx-auto hidden h-[900px] max-w-[1080px] lg:block">
-            <svg className="absolute inset-0 h-[720px] w-full overflow-visible" viewBox="0 0 1080 680" aria-hidden="true">
+          <div className="relative mx-auto hidden h-[805px] max-w-[1080px] lg:block">
+            <svg className="absolute inset-0 h-[805px] w-full overflow-visible" viewBox="0 0 1080 805" aria-hidden="true">
               <defs>
                 <filter id="landing-loop-soft-glow" x="-20%" y="-20%" width="140%" height="140%">
                   <feGaussianBlur stdDeviation="1.35" result="blur" />
@@ -401,56 +436,37 @@ function LearningLoopSection() {
                   </feMerge>
                 </filter>
               </defs>
-              <g className="tj-loop-orbit" style={{ transformOrigin: "540px 310px" }}>
-                <circle className="tj-loop-dots" cx="540" cy="310" r="160" />
-                <circle className="tj-loop-grain" cx="540" cy="310" r="201" />
-                <circle className="tj-loop-dashes" cx="540" cy="310" r="146" />
+              <g className="tj-loop-orbit" style={{ transformOrigin: "540px 416px" }}>
+                <circle className="tj-loop-dots" cx="540" cy="416" r="242" />
+                <circle className="tj-loop-grain" cx="540" cy="416" r="336" />
+                <circle className="tj-loop-dashes" cx="540" cy="416" r="220" />
               </g>
-              <circle cx="540" cy="310" r="204" fill="none" stroke="var(--hairline)" strokeWidth="1.5" strokeDasharray="2 7" />
+              <circle cx="540" cy="416" r="336" fill="none" stroke="var(--hairline)" strokeWidth="1.5" strokeDasharray="2 7" />
               <g fill="none" strokeLinecap="round">
-                <path d="M468.2,507.3 A210 210 0 0 1 345.3,231.3" stroke="var(--green)" strokeWidth="2.5" opacity=".34" />
-                <path d="M358.1,205 A210 210 0 0 1 741.9,252.1" stroke="var(--green)" strokeWidth="2.5" opacity=".34" />
-                <path d="M748,280.8 A210 210 0 0 1 503.5,516.8" stroke="var(--green)" strokeWidth="2.5" opacity=".34" />
+                <path d="M302,178 A336 336 0 0 1 778,178" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
+                <path d="M778,178 A336 336 0 0 1 778,654" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
+                <path d="M778,654 A336 336 0 0 1 302,654" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
+                <path d="M302,654 A336 336 0 0 1 302,178" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
               </g>
               <g filter="url(#landing-loop-soft-glow)">
-                <path className="tj-loop-flow tj-loop-flow-1" pathLength="1" d="M468.2,507.3 A210 210 0 0 1 345.3,231.3" />
-                <path className="tj-loop-flow tj-loop-flow-2" pathLength="1" d="M358.1,205 A210 210 0 0 1 741.9,252.1" />
-                <path className="tj-loop-flow tj-loop-flow-3" pathLength="1" d="M748,280.8 A210 210 0 0 1 503.5,516.8" />
+                <path className="tj-loop-flow tj-loop-flow-1" pathLength="1" d="M302,178 A336 336 0 0 1 778,178" />
+                <path className="tj-loop-flow tj-loop-flow-2" pathLength="1" d="M778,178 A336 336 0 0 1 778,654" />
+                <path className="tj-loop-flow tj-loop-flow-3" pathLength="1" d="M778,654 A336 336 0 0 1 302,654" />
+                <path className="tj-loop-flow tj-loop-flow-4" pathLength="1" d="M302,654 A336 336 0 0 1 302,178" />
               </g>
-              <LoopNode x={358.1} y={205} label="01" />
-              <LoopNode x={748} y={280.8} label="02" />
-              <LoopNode x={468.2} y={507.3} label="03" />
             </svg>
 
-            <div className="absolute left-[390px] top-[290px] w-[300px] text-center">
-              <h3 className="text-[28px] font-semibold leading-[1.15] tracking-[-0.02em]">
+            <div className="absolute left-1/2 top-[416px] w-[360px] -translate-x-1/2 -translate-y-1/2 text-center">
+              <h3 className="text-[34px] font-semibold leading-[1.12] tracking-[-0.02em]">
                 Trading Journal AI
                 <br />
-                Learning Loop
+                Review System
               </h3>
             </div>
 
-            <LoopDiagramCard
-              number="01"
-              label="Journal"
-              title="Daily recap"
-              body="The day&apos;s story: trades, check-ins, emotions, process notes, charts, and market context."
-              className="left-6 top-[42px]"
-            />
-            <LoopDiagramCard
-              number="02"
-              label="Coach"
-              title="Feedback"
-              body="Synthesizes what worked, what broke, and what to try next from journal context and trade evidence."
-              className="left-[792px] top-[94px]"
-            />
-            <LoopDiagramCard
-              number="03"
-              label="Dashboard"
-              title="Check-ins + reminders"
-              body="Prompts the moment: plan, market read, behavior, emotion. Resurfaces the active lesson and next-session cue."
-              className="left-[306px] top-[584px]"
-            />
+            {loopSurfaces.map((surface) => (
+              <LoopDiagramCard key={surface.title} {...surface} />
+            ))}
           </div>
 
           <div className="relative lg:hidden">
@@ -459,101 +475,63 @@ function LearningLoopSection() {
                 <h3 className="text-[25px] font-semibold leading-[1.12] tracking-[-0.02em]">
                   Trading Journal AI
                   <br />
-                  Learning Loop
+                  Review System
                 </h3>
               </div>
             </div>
             <div className="mt-7 grid gap-4">
-              <LoopDiagramCard number="01" label="Journal" title="Daily recap" body="The day&apos;s story, check-ins, trades, and context." />
-              <LoopDiagramCard number="02" label="Coach" title="Feedback" body="Turns journal context and trade evidence into a focused lesson." />
-              <LoopDiagramCard number="03" label="Dashboard" title="Check-ins + reminders" body="Brings the lesson into the next session and captures the next check-ins." />
+              {loopSurfaces.map((surface) => (
+                <LoopDiagramCard
+                  key={surface.title}
+                  label={surface.label}
+                  title={surface.title}
+                  body={surface.body}
+                />
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="mt-9">
-          <SectionEyebrow className="text-[var(--green)]">Surface responsibilities</SectionEyebrow>
-          <h3 className="mt-[18px] text-balance text-[28px] font-semibold leading-[1.12] tracking-[-0.02em] md:text-[34px]">
-            Three surfaces connected
-          </h3>
-          <p className="mt-[18px] max-w-[720px] text-pretty text-[16.5px] leading-[1.62] text-[var(--prose,#99a3b1)]">
-            The journal keeps the story of the day. The coach turns that story into a
-            focused lesson. The dashboard carries the lesson into the next session,
-            then captures the check-ins that start the loop again.
-          </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {surfaces.map((surface) => (
-              <article key={surface.title} className="flex min-h-[250px] flex-col rounded-xl border border-[var(--border)] bg-[var(--surface)] p-6">
-                <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[var(--green)]">
-                  {surface.verb}
-                </span>
-                <h4 className="mt-2.5 text-xl font-semibold">{surface.title}</h4>
-                <p className="mt-3 text-[13.5px] leading-[1.58] text-[var(--prose,#99a3b1)]">
-                  {surface.body}
-                </p>
-                <div className="mt-auto pt-5">
-                  <p className="font-mono text-[9.5px] uppercase tracking-[0.12em] text-[var(--muted)]">Sends forward</p>
-                  <p className="mt-2 flex gap-2 text-[13px] leading-[1.5] text-[var(--body)]">
-                    <span className="text-[var(--green)]">→</span>
-                    <span>{surface.forward}</span>
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
+        <div className="mt-8 grid gap-x-10 gap-y-7 border-t border-[var(--hairline)] pt-16 md:grid-cols-2 lg:grid-cols-4">
+          {surfaceNotes.map((note) => (
+            <div key={note.label} className="max-w-[280px]">
+              <span className="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-[var(--muted)]">
+                {note.label}
+              </span>
+              <p className="mt-3 text-[14px] leading-[1.68] text-[var(--prose,#99a3b1)]">
+                <span className="block font-semibold text-[var(--foreground)]">{note.lead}</span>
+                <span className="mt-1.5 block">{note.body}</span>
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function LoopNode({ x, y, label }: { x: number; y: number; label: string }) {
-  return (
-    <g>
-      <circle cx={x} cy={y} r="13" fill="var(--surface)" stroke="var(--green)" strokeWidth="1.6" />
-      <text
-        x={x}
-        y={y + 1}
-        textAnchor="middle"
-        dominantBaseline="middle"
-        fill="var(--green)"
-        fontFamily="var(--font-geist-mono), ui-monospace, monospace"
-        fontSize="8.5"
-        fontWeight="700"
-      >
-        {label}
-      </text>
-    </g>
-  );
-}
-
 function LoopDiagramCard({
-  number,
   label,
   title,
   body,
   className = "",
 }: {
-  number: string;
   label: string;
   title: string;
   body: string;
   className?: string;
 }) {
   return (
-    <article className={`${className} rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_22px_54px_-26px_rgba(0,0,0,.8)] lg:absolute lg:w-[268px]`}>
-      <div className="flex items-center gap-3">
-        <span className="grid size-[34px] shrink-0 place-items-center rounded-full border border-[rgba(29,178,107,.55)] font-mono text-[13px] font-semibold text-[var(--green)]">
-          {number}
-        </span>
-        <span className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-[var(--muted)]">
+    <article className={`${className} rounded-2xl border border-[var(--border)] bg-[#0b0d12] p-6 shadow-[0_22px_54px_-32px_rgba(0,0,0,.85)] lg:absolute lg:z-10 lg:w-[268px]`}>
+      <div>
+        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--green)]">
           {label}
         </span>
+        <h4 className="mt-0.5 text-[22px] font-semibold leading-tight tracking-[-0.015em]">
+          {title}
+        </h4>
       </div>
-      <h4 className="mt-[17px] text-[22px] font-semibold leading-tight tracking-[-0.015em]">
-        {title}
-      </h4>
-      <p className="mt-3 text-[13.5px] leading-[1.6] text-[var(--prose,#99a3b1)]">
+      <p className="mt-4 text-[13.5px] leading-[1.6] text-[var(--prose,#99a3b1)]">
         {body}
       </p>
     </article>
@@ -728,7 +706,8 @@ function RecapScreen({ hideNav = false }: { hideNav?: boolean }) {
             <p className="mt-3 max-w-[560px] text-pretty text-[17px] leading-[1.6] text-[var(--foreground)]">
               Clean open. Waited for the first pullback on NPT instead of chasing the
               spike. That patience set the tone for the whole session. Sized
-              normal, took profits into strength, and walked away after the morning push.
+              normal, took profits into strength, and carried one playbook reminder into
+              tomorrow.
             </p>
             <div className="mt-4 flex gap-2">
               {["Patient", "Followed plan"].map((tag) => (
@@ -798,14 +777,14 @@ function ReviewScreen() {
               </div>
             </div>
             <div className="my-4 h-px bg-[var(--hairline)]" />
-            <SectionEyebrow>Trade Note</SectionEyebrow>
+            <SectionEyebrow>Playbook Example</SectionEyebrow>
             <div className="mt-3 inline-flex items-center gap-2">
               <span className="size-1.5 rounded-full bg-[var(--green)]" />
               <span className="font-mono text-[11px] text-[var(--green)]">Best setup</span>
             </div>
             <p className="mt-3 text-pretty text-[15.5px] leading-[1.6] text-[var(--prose,#99a3b1)]">
               Textbook green-to-red reclaim. Entered on the reclaim, added on the first
-              pullback, trimmed half into the move. The A+ I keep talking about: patient
+              pullback, trimmed half into the move. Keep as an A+ example: patient
               entry, defined risk, let it work.
             </p>
           </div>
@@ -950,7 +929,7 @@ function CoachCard({ embedded = false }: { embedded?: boolean }) {
           {!embedded && <span className="text-[var(--muted)]">· NPT · Trade 1</span>}
         </div>
       </div>
-      <GroupLabel className="mt-5">Read against your rules</GroupLabel>
+      <GroupLabel className="mt-5">Read against your playbook</GroupLabel>
       <div className="mt-3.5 space-y-3">
         {[
           ["pass", "Waited for confirmation", "Entry after the reclaim held"],

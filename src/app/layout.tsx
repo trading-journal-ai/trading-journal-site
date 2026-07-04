@@ -15,13 +15,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://trading-journal.ai"),
   title: "Trading Journal AI",
-  description: "Journal-first trade review, daily recaps, charts, and AI coaching.",
+  description: "Journal-first trade review that turns your notes, rules, and examples into a personal trading playbook with grounded AI coaching.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Trading Journal AI",
-    description: "Journal-first trade review, daily recaps, charts, and AI coaching.",
+    description: "Turn trade review into a personal trading playbook, with AI coaching grounded in your own notes, rules, and examples.",
     url: "/",
     siteName: "Trading Journal AI",
     images: [
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Trading Journal AI",
-    description: "Journal-first trade review, daily recaps, charts, and AI coaching.",
+    description: "Turn trade review into a personal trading playbook, with AI coaching grounded in your own notes, rules, and examples.",
     images: ["/og-image-v2.png"],
   },
   icons: {

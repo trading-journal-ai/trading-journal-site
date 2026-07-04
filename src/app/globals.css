@@ -60,11 +60,11 @@ body {
 /* Landing-page learning loop motion. */
 .tj-loop-dots {
   fill: none;
-  stroke: var(--green);
+  stroke: #ffffff;
   stroke-width: 3.25;
   stroke-linecap: round;
-  stroke-dasharray: 0.01 28;
-  opacity: 0.5;
+  stroke-dasharray: 0.01 28.148;
+  opacity: 0.68;
 }
 
 .tj-loop-grain {
@@ -99,8 +99,8 @@ body {
   .tj-loop-dots,
   .tj-loop-grain,
   .tj-loop-dashes {
-    transform-box: view-box;
-    transform-origin: 540px 310px;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
   .tj-loop-dots {
@@ -126,6 +126,10 @@ body {
   .tj-loop-flow-3 {
     animation: tj-loop-flow-3 25s ease-in-out infinite;
   }
+
+  .tj-loop-flow-4 {
+    animation: tj-loop-flow-4 25s ease-in-out infinite;
+  }
 }
 
 @keyframes tj-loop-spin {
@@ -148,12 +152,12 @@ body {
   3% {
     opacity: 0.82;
   }
-  18%,
-  27% {
+  15%,
+  20% {
     stroke-dashoffset: 0;
     opacity: 0.82;
   }
-  33%,
+  25%,
   100% {
     stroke-dashoffset: 0;
     opacity: 0;
@@ -162,19 +166,19 @@ body {
 
 @keyframes tj-loop-flow-2 {
   0%,
-  38% {
+  25% {
     stroke-dashoffset: 1;
     opacity: 0;
   }
-  41% {
+  28% {
     opacity: 0.82;
   }
-  56%,
-  65% {
+  40%,
+  45% {
     stroke-dashoffset: 0;
     opacity: 0.82;
   }
-  71%,
+  50%,
   100% {
     stroke-dashoffset: 0;
     opacity: 0;
@@ -183,15 +187,36 @@ body {
 
 @keyframes tj-loop-flow-3 {
   0%,
-  76% {
+  50% {
     stroke-dashoffset: 1;
     opacity: 0;
   }
-  79% {
+  53% {
     opacity: 0.82;
   }
-  94%,
-  98% {
+  65%,
+  70% {
+    stroke-dashoffset: 0;
+    opacity: 0.82;
+  }
+  75%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes tj-loop-flow-4 {
+  0%,
+  75% {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  78% {
+    opacity: 0.82;
+  }
+  90%,
+  95% {
     stroke-dashoffset: 0;
     opacity: 0.82;
   }
