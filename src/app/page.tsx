@@ -420,41 +420,16 @@ function LearningLoopSection() {
           </p>
         </div>
 
-        <div className="relative mb-16 mt-5 overflow-hidden px-4 pb-0 pt-0 sm:px-6 lg:px-8">
+        <div className="relative mb-16 mt-5 overflow-visible px-4 pb-0 pt-0 sm:px-6 lg:px-8">
           <div
             aria-hidden="true"
             className="absolute left-1/2 top-[72px] h-[760px] w-[930px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(29,178,107,.055)_0%,rgba(29,178,107,.04)_38%,rgba(16,22,24,.026)_62%,transparent_82%)] blur-[18px]"
           />
-          <div className="relative mx-auto hidden h-[805px] max-w-[1080px] lg:block">
-            <svg className="absolute inset-0 h-[805px] w-full overflow-visible" viewBox="0 0 1080 805" aria-hidden="true">
-              <defs>
-                <filter id="landing-loop-soft-glow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="1.35" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-              <g className="tj-loop-orbit" style={{ transformOrigin: "540px 416px" }}>
-                <circle className="tj-loop-dots" cx="540" cy="416" r="242" />
-                <circle className="tj-loop-grain" cx="540" cy="416" r="336" />
-                <circle className="tj-loop-dashes" cx="540" cy="416" r="220" />
-              </g>
-              <circle cx="540" cy="416" r="336" fill="none" stroke="var(--hairline)" strokeWidth="1.5" strokeDasharray="2 7" />
-              <g fill="none" strokeLinecap="round">
-                <path d="M302,178 A336 336 0 0 1 778,178" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
-                <path d="M778,178 A336 336 0 0 1 778,654" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
-                <path d="M778,654 A336 336 0 0 1 302,654" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
-                <path d="M302,654 A336 336 0 0 1 302,178" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
-              </g>
-              <g filter="url(#landing-loop-soft-glow)">
-                <path className="tj-loop-flow tj-loop-flow-1" pathLength="1" d="M302,178 A336 336 0 0 1 778,178" />
-                <path className="tj-loop-flow tj-loop-flow-2" pathLength="1" d="M778,178 A336 336 0 0 1 778,654" />
-                <path className="tj-loop-flow tj-loop-flow-3" pathLength="1" d="M778,654 A336 336 0 0 1 302,654" />
-                <path className="tj-loop-flow tj-loop-flow-4" pathLength="1" d="M302,654 A336 336 0 0 1 302,178" />
-              </g>
-            </svg>
+          <div className="relative mx-auto hidden h-[805px] max-w-[1080px] xl:block">
+            <LoopOrbitSvg
+              glowId="landing-loop-soft-glow-desktop"
+              className="absolute inset-0 h-[805px] w-full overflow-visible"
+            />
 
             <div className="absolute left-1/2 top-[416px] w-[360px] -translate-x-1/2 -translate-y-1/2 text-center">
               <h3 className="text-[34px] font-semibold leading-[1.12] tracking-[-0.02em]">
@@ -469,32 +444,29 @@ function LearningLoopSection() {
             ))}
           </div>
 
-          <div className="relative lg:hidden">
-            <div className="mx-auto grid h-[320px] max-w-[360px] place-items-center rounded-full border border-[var(--hairline)] bg-[radial-gradient(circle,rgba(29,178,107,.08),transparent_68%)]">
-              <div className="rounded-full border border-[var(--border)] px-8 py-7 text-center">
-                <h3 className="text-[25px] font-semibold leading-[1.12] tracking-[-0.02em]">
-                  Trading Journal AI
-                  <br />
-                  Review System
-                </h3>
-              </div>
-            </div>
-            <div className="mt-7 grid gap-4">
-              {loopSurfaces.map((surface) => (
-                <LoopDiagramCard
-                  key={surface.title}
-                  label={surface.label}
-                  title={surface.title}
-                  body={surface.body}
-                />
-              ))}
+          <div className="relative mx-auto h-[410px] max-w-[430px] overflow-visible sm:h-[500px] lg:h-[650px] lg:max-w-[1000px] xl:hidden">
+            <div
+              aria-hidden="true"
+              className="absolute left-1/2 top-1/2 h-[440px] w-[440px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(29,178,107,.075)_0%,rgba(29,178,107,.04)_45%,transparent_74%)] blur-[14px] sm:h-[520px] sm:w-[520px]"
+            />
+            <LoopOrbitSvg
+              glowId="landing-loop-soft-glow-mobile"
+              className="absolute left-1/2 top-1/2 h-[440px] w-[590px] -translate-x-1/2 -translate-y-1/2 overflow-visible sm:h-[520px] sm:w-[700px] lg:h-[690px] lg:w-[930px]"
+              showNumbers
+            />
+            <div className="absolute left-1/2 top-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2 text-center sm:w-[340px] lg:w-[520px]">
+              <h3 className="text-[28px] font-semibold leading-[1.12] tracking-[-0.02em] sm:text-[32px] lg:text-[48px]">
+                Trading Journal AI
+                <br />
+                Review System
+              </h3>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 grid gap-x-10 gap-y-7 border-t border-[var(--hairline)] pt-16 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto mt-8 grid w-full max-w-[760px] grid-cols-2 justify-items-center gap-x-5 gap-y-8 border-t border-[var(--hairline)] pt-16 sm:gap-x-8 md:grid-cols-2 lg:max-w-none lg:grid-cols-4 lg:justify-items-start lg:gap-x-10">
           {surfaceNotes.map((note) => (
-            <div key={note.label} className="max-w-[280px]">
+            <div key={note.label} className="max-w-[160px] sm:max-w-[240px] lg:max-w-[280px]">
               <span className="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-[var(--muted)]">
                 {note.label}
               </span>
@@ -507,6 +479,67 @@ function LearningLoopSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function LoopOrbitSvg({
+  glowId,
+  className,
+  showNumbers = false,
+}: {
+  glowId: string;
+  className: string;
+  showNumbers?: boolean;
+}) {
+  const numberNodes = [
+    ["01", 302, 178],
+    ["02", 778, 178],
+    ["03", 778, 654],
+    ["04", 302, 654],
+  ] as const;
+
+  return (
+    <svg className={className} viewBox="0 0 1080 805" aria-hidden="true">
+      <defs>
+        <filter id={glowId} x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1.35" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <g className="tj-loop-orbit" style={{ transformOrigin: "540px 416px" }}>
+        <circle className="tj-loop-dots" cx="540" cy="416" r="242" />
+        <circle className="tj-loop-grain" cx="540" cy="416" r="336" />
+        <circle className="tj-loop-dashes" cx="540" cy="416" r="220" />
+      </g>
+      <circle cx="540" cy="416" r="336" fill="none" stroke="var(--hairline)" strokeWidth="1.5" strokeDasharray="2 7" />
+      <g fill="none" strokeLinecap="round">
+        <path d="M302,178 A336 336 0 0 1 778,178" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
+        <path d="M778,178 A336 336 0 0 1 778,654" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
+        <path d="M778,654 A336 336 0 0 1 302,654" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
+        <path d="M302,654 A336 336 0 0 1 302,178" stroke="var(--green)" strokeWidth="2.5" opacity=".28" />
+      </g>
+      <g filter={`url(#${glowId})`}>
+        <path className="tj-loop-flow tj-loop-flow-1" pathLength="1" d="M302,178 A336 336 0 0 1 778,178" />
+        <path className="tj-loop-flow tj-loop-flow-2" pathLength="1" d="M778,178 A336 336 0 0 1 778,654" />
+        <path className="tj-loop-flow tj-loop-flow-3" pathLength="1" d="M778,654 A336 336 0 0 1 302,654" />
+        <path className="tj-loop-flow tj-loop-flow-4" pathLength="1" d="M302,654 A336 336 0 0 1 302,178" />
+      </g>
+      {showNumbers ? (
+        <g className="font-mono text-[18px] font-bold tracking-[0.02em]" textAnchor="middle">
+          {numberNodes.map(([number, x, y]) => (
+            <g key={number}>
+              <circle cx={x} cy={y} r="24" fill="#0b0d12" stroke="var(--green)" strokeWidth="2.25" />
+              <text x={x} y={y} dy="0.34em" fill="var(--green)">
+                {number}
+              </text>
+            </g>
+          ))}
+        </g>
+      ) : null}
+    </svg>
   );
 }
 
