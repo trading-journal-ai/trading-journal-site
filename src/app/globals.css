@@ -208,6 +208,22 @@ html {
   pointer-events: none;
 }
 
+.tj-loop-conn {
+  stroke: var(--border);
+  stroke-dasharray: 1;
+}
+
+.tj-loop-card-trace {
+  fill: none;
+  stroke: rgba(126, 240, 178, 0.85);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .tj-loop-node-pop {
   transform-box: fill-box;
   transform-origin: center;
@@ -307,20 +323,88 @@ html {
     animation-delay: 1.7s;
   }
 
-  .tj-loop-entered .tj-loop-card-enter-tl {
-    animation: tj-loop-card-tl 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.25s both;
+  /* Card entrance, sequential around the loop (01 -> 02 -> 03 -> 04).
+     Per card, base B = 1.1s + 0.8s * index:
+     connector draws at B (green), the border traces from that corner at
+     B + .35s, then the surface and content fade in at ~B + .95s while the
+     green trace dissolves and the connector settles to the border color. */
+  .tj-loop-entered .tj-loop-conn {
+    animation:
+      tj-loop-conn-draw 0.4s ease-out both,
+      tj-loop-conn-settle 0.55s ease both;
   }
 
-  .tj-loop-entered .tj-loop-card-enter-tr {
-    animation: tj-loop-card-tr 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.5s both;
-  }
-
-  .tj-loop-entered .tj-loop-card-enter-br {
-    animation: tj-loop-card-br 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.75s both;
-  }
-
+  .tj-loop-entered .tj-loop-card-enter-tl,
+  .tj-loop-entered .tj-loop-card-enter-tr,
+  .tj-loop-entered .tj-loop-card-enter-br,
   .tj-loop-entered .tj-loop-card-enter-bl {
-    animation: tj-loop-card-bl 0.8s cubic-bezier(0.22, 1, 0.36, 1) 2s both;
+    animation: tj-loop-card-surface 0.5s ease both;
+  }
+
+  .tj-loop-entered .tj-loop-card-enter-tl .tj-loop-card-trace,
+  .tj-loop-entered .tj-loop-card-enter-tr .tj-loop-card-trace,
+  .tj-loop-entered .tj-loop-card-enter-br .tj-loop-card-trace,
+  .tj-loop-entered .tj-loop-card-enter-bl .tj-loop-card-trace {
+    animation: tj-loop-card-draw 1.2s linear both;
+  }
+
+  .tj-loop-entered .tj-loop-card-enter-tl .tj-loop-card-content,
+  .tj-loop-entered .tj-loop-card-enter-tr .tj-loop-card-content,
+  .tj-loop-entered .tj-loop-card-enter-br .tj-loop-card-content,
+  .tj-loop-entered .tj-loop-card-enter-bl .tj-loop-card-content {
+    animation: tj-loop-card-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .tj-loop-entered .tj-loop-conn-0 {
+    animation-delay: 1.1s, 2.05s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-tl .tj-loop-card-trace {
+    animation-delay: 1.45s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-tl {
+    animation-delay: 2.05s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-tl .tj-loop-card-content {
+    animation-delay: 2.12s;
+  }
+
+  .tj-loop-entered .tj-loop-conn-1 {
+    animation-delay: 1.9s, 2.85s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-tr .tj-loop-card-trace {
+    animation-delay: 2.25s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-tr {
+    animation-delay: 2.85s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-tr .tj-loop-card-content {
+    animation-delay: 2.92s;
+  }
+
+  .tj-loop-entered .tj-loop-conn-2 {
+    animation-delay: 2.7s, 3.65s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-br .tj-loop-card-trace {
+    animation-delay: 3.05s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-br {
+    animation-delay: 3.65s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-br .tj-loop-card-content {
+    animation-delay: 3.72s;
+  }
+
+  .tj-loop-entered .tj-loop-conn-3 {
+    animation-delay: 3.5s, 4.45s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-bl .tj-loop-card-trace {
+    animation-delay: 3.85s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-bl {
+    animation-delay: 4.45s;
+  }
+  .tj-loop-entered .tj-loop-card-enter-bl .tj-loop-card-content {
+    animation-delay: 4.52s;
   }
 }
 
@@ -365,31 +449,52 @@ html {
   }
 }
 
-@keyframes tj-loop-card-tl {
+@keyframes tj-loop-conn-draw {
   from {
+    stroke-dashoffset: 1;
     opacity: 0;
-    transform: translate(-22px, -22px);
   }
 }
 
-@keyframes tj-loop-card-tr {
+/* Backwards fill keeps the connector green from the moment it draws until
+   the card surface fades in, then it eases to the resting border color. */
+@keyframes tj-loop-conn-settle {
   from {
-    opacity: 0;
-    transform: translate(22px, -22px);
+    stroke: rgba(126, 240, 178, 0.85);
   }
 }
 
-@keyframes tj-loop-card-br {
-  from {
+@keyframes tj-loop-card-draw {
+  0% {
+    stroke-dashoffset: 100;
     opacity: 0;
-    transform: translate(22px, 22px);
+    animation-timing-function: cubic-bezier(0.3, 0.55, 0.4, 1);
+  }
+  8% {
+    opacity: 1;
+  }
+  55% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
   }
 }
 
-@keyframes tj-loop-card-bl {
+@keyframes tj-loop-card-surface {
+  from {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: 0 22px 54px -32px rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes tj-loop-card-rise {
   from {
     opacity: 0;
-    transform: translate(-22px, 22px);
+    transform: translateY(6px);
   }
 }
 

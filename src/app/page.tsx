@@ -393,6 +393,7 @@ function LearningLoopSection() {
       radiusClassName: "rounded-[10px_10px_0_10px]",
       pulseClassName: "tj-loop-step-3",
       enterClassName: "tj-loop-card-enter-tl",
+      traceCorner: "br" as const,
     },
     {
       number: "02",
@@ -403,6 +404,7 @@ function LearningLoopSection() {
       radiusClassName: "rounded-[10px_10px_10px_0]",
       pulseClassName: "tj-loop-step-0",
       enterClassName: "tj-loop-card-enter-tr",
+      traceCorner: "bl" as const,
     },
     {
       number: "03",
@@ -413,6 +415,7 @@ function LearningLoopSection() {
       radiusClassName: "rounded-[0_10px_10px_10px]",
       pulseClassName: "tj-loop-step-1",
       enterClassName: "tj-loop-card-enter-br",
+      traceCorner: "tl" as const,
     },
     {
       number: "04",
@@ -423,6 +426,7 @@ function LearningLoopSection() {
       radiusClassName: "rounded-[10px_0_10px_10px]",
       pulseClassName: "tj-loop-step-2",
       enterClassName: "tj-loop-card-enter-bl",
+      traceCorner: "tr" as const,
     },
   ];
 
@@ -622,15 +626,16 @@ function LoopOrbitSvg({
       </g>
 
       {!compact ? (
-        <g className="tj-loop-fade-intro tj-loop-fade-delay-4">
-          {connectors.map(([x1, y1, x2, y2]) => (
+        <g>
+          {connectors.map(([x1, y1, x2, y2], index) => (
             <line
               key={`${x1}-${y1}-${x2}-${y2}`}
+              className={`tj-loop-conn tj-loop-conn-${index}`}
+              pathLength={1}
               x1={x1}
               y1={y1}
               x2={x2}
               y2={y2}
-              stroke="rgba(29,178,107,.5)"
               strokeWidth="1.5"
             />
           ))}
@@ -653,6 +658,39 @@ function LoopOrbitSvg({
   );
 }
 
+function cardTracePaths(w: number, h: number, corner: "tl" | "tr" | "br" | "bl") {
+  // Two strokes start at the square corner (where the connector arrives) and
+  // wrap the card in opposite directions, meeting at the far corner.
+  const r = 10;
+  const inset = 0.75;
+  const x0 = inset;
+  const y0 = inset;
+  const x1 = w - inset;
+  const y1 = h - inset;
+  switch (corner) {
+    case "br":
+      return [
+        `M ${x1} ${y1} L ${x0 + r} ${y1} Q ${x0} ${y1} ${x0} ${y1 - r} L ${x0} ${y0 + r} Q ${x0} ${y0} ${x0 + r} ${y0}`,
+        `M ${x1} ${y1} L ${x1} ${y0 + r} Q ${x1} ${y0} ${x1 - r} ${y0} L ${x0 + r} ${y0}`,
+      ];
+    case "bl":
+      return [
+        `M ${x0} ${y1} L ${x1 - r} ${y1} Q ${x1} ${y1} ${x1} ${y1 - r} L ${x1} ${y0 + r} Q ${x1} ${y0} ${x1 - r} ${y0}`,
+        `M ${x0} ${y1} L ${x0} ${y0 + r} Q ${x0} ${y0} ${x0 + r} ${y0} L ${x1 - r} ${y0}`,
+      ];
+    case "tl":
+      return [
+        `M ${x0} ${y0} L ${x1 - r} ${y0} Q ${x1} ${y0} ${x1} ${y0 + r} L ${x1} ${y1 - r} Q ${x1} ${y1} ${x1 - r} ${y1}`,
+        `M ${x0} ${y0} L ${x0} ${y1 - r} Q ${x0} ${y1} ${x0 + r} ${y1} L ${x1 - r} ${y1}`,
+      ];
+    case "tr":
+      return [
+        `M ${x1} ${y0} L ${x0 + r} ${y0} Q ${x0} ${y0} ${x0} ${y0 + r} L ${x0} ${y1 - r} Q ${x0} ${y1} ${x0 + r} ${y1}`,
+        `M ${x1} ${y0} L ${x1} ${y1 - r} Q ${x1} ${y1} ${x1 - r} ${y1} L ${x0 + r} ${y1}`,
+      ];
+  }
+}
+
 function LoopDiagramCard({
   number,
   label,
@@ -662,6 +700,7 @@ function LoopDiagramCard({
   radiusClassName,
   pulseClassName,
   enterClassName,
+  traceCorner,
   mobile = false,
 }: {
   number: string;
@@ -672,15 +711,52 @@ function LoopDiagramCard({
   radiusClassName: string;
   pulseClassName: string;
   enterClassName: string;
+  traceCorner?: "tl" | "tr" | "br" | "bl";
   mobile?: boolean;
 }) {
+  const cardRef = useRef<HTMLElement | null>(null);
+  const [traceSize, setTraceSize] = useState<{ w: number; h: number } | null>(null);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card || mobile || !traceCorner) return;
+
+    const measure = () => {
+      const w = card.offsetWidth;
+      const h = card.offsetHeight;
+      setTraceSize((prev) => (prev && prev.w === w && prev.h === h ? prev : { w, h }));
+    };
+    measure();
+
+    if (!("ResizeObserver" in window)) return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [mobile, traceCorner]);
+
   return (
-    <article className={`${mobile ? "relative" : `${className} ${enterClassName} absolute z-10 w-[272px]`} ${radiusClassName} group border border-[var(--border)] bg-[#0b0d12] p-6 shadow-[0_22px_54px_-32px_rgba(0,0,0,.85)] transition-colors hover:border-[rgba(110,231,168,.45)]`}>
+    <article
+      ref={cardRef}
+      className={`${mobile ? "relative" : `${className} ${enterClassName} absolute z-10 w-[272px]`} ${radiusClassName} group border border-[var(--border)] bg-[#0b0d12] p-6 shadow-[0_22px_54px_-32px_rgba(0,0,0,.85)] transition-colors hover:border-[rgba(110,231,168,.45)]`}
+    >
       <div
         aria-hidden="true"
         className={`tj-loop-card-glow ${pulseClassName} absolute inset-[-1px] ${radiusClassName} border border-[rgba(126,240,178,.6)] shadow-[0_0_0_1px_rgba(29,178,107,.16),0_10px_40px_-10px_rgba(29,178,107,.28)]`}
       />
-      <div>
+      {!mobile && traceCorner && traceSize ? (
+        <svg
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-[-1px] overflow-visible"
+          width={traceSize.w}
+          height={traceSize.h}
+          viewBox={`0 0 ${traceSize.w} ${traceSize.h}`}
+        >
+          {cardTracePaths(traceSize.w, traceSize.h, traceCorner).map((d) => (
+            <path key={d} className="tj-loop-card-trace" pathLength={100} d={d} />
+          ))}
+        </svg>
+      ) : null}
+      <div className="tj-loop-card-content">
         <div className="flex items-center gap-2">
           {mobile ? (
             <span className="inline-flex items-center justify-center rounded-[5px] border border-[rgba(29,178,107,.35)] px-1.5 py-0.5 font-mono text-[10px] font-semibold leading-none tracking-[0.06em] text-[#34d27b]">
@@ -694,10 +770,10 @@ function LoopDiagramCard({
         <h4 className="mt-0.5 text-[22px] font-semibold leading-tight tracking-[-0.015em]">
           {title}
         </h4>
+        <p className="mt-4 text-[13.5px] leading-[1.6] text-[var(--prose,#99a3b1)]">
+          {body}
+        </p>
       </div>
-      <p className="mt-4 text-[13.5px] leading-[1.6] text-[var(--prose,#99a3b1)]">
-        {body}
-      </p>
     </article>
   );
 }
