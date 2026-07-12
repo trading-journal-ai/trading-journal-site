@@ -52,8 +52,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    >
+      <body>
+        {/* Apply the stored theme before paint so daylight users don't flash dark. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var t=localStorage.getItem('tj-theme');if(t==='daylight')document.documentElement.setAttribute('data-theme','daylight');}catch(e){}",
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

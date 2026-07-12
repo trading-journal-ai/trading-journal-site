@@ -9,28 +9,37 @@
   --hairline: rgba(255, 255, 255, 0.07);
   --foreground: #e6edf3;
   --body: #c3ccd8;
+  --prose: #99a3b1;
   --muted: #7a8492;
   --faint: #4d5664;
   --green: #1db26b;
   --red: #f05143;
   --blue: #58a6ff;
+  --accent: #1db26b;
+  --browser-frame-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.4);
   color-scheme: dark;
 }
 
-:root[data-theme="light"] {
-  --background: #f6f8fa;
+/* Daylight — warm light theme from the design handoff. Opt-in via data-theme. */
+:root[data-theme="daylight"] {
+  --background: #fcfaf7;
   --surface: #ffffff;
-  --surface-2: #f0f2f5;
-  --panel: #ffffff;
-  --border: #d0d7de;
-  --hairline: rgba(31, 35, 40, 0.08);
-  --foreground: #24292f;
-  --body: #414a56;
-  --muted: #57606a;
-  --faint: #8c959f;
-  --green: #1db26b;
-  --red: #f05143;
+  --surface-2: #f3efe6;
+  --panel: #f6f2ea;
+  --border: #ecebde;
+  --hairline: rgba(33, 30, 24, 0.08);
+  --foreground: #211e18;
+  --body: #4a463e;
+  --prose: #4a463e;
+  --muted: #8a8375;
+  --faint: #b0a892;
+  --green: #217a4b;
+  --red: #bc4b38;
   --blue: #0969da;
+  --accent: #0c8c49;
+  --browser-frame-shadow:
+    0 24px 56px -18px rgba(58, 48, 35, 0.16),
+    0 8px 22px -10px rgba(58, 48, 35, 0.1);
   color-scheme: light;
 }
 
@@ -49,6 +58,69 @@ body {
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Sticky header ground: theme background at 75% so it works in both themes. */
+.tj-header {
+  background: color-mix(in srgb, var(--background) 75%, transparent);
+}
+
+/* Hero image fades — blend the product screenshot into the page ground.
+   Token-based so the fade lands on charcoal in dark and cream in daylight. */
+.tj-hero-fade-x {
+  background: linear-gradient(
+    90deg,
+    var(--background) 0%,
+    color-mix(in srgb, var(--background) 96%, transparent) 30%,
+    color-mix(in srgb, var(--background) 78%, transparent) 52%,
+    color-mix(in srgb, var(--background) 34%, transparent) 78%,
+    color-mix(in srgb, var(--background) 16%, transparent) 100%
+  );
+}
+
+.tj-hero-fade-y {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--background) 24%, transparent) 58%,
+    var(--background) 100%
+  );
+}
+
+.tj-hero-atmosphere {
+  background: radial-gradient(circle at 72% 36%, rgba(89, 230, 158, 0.12), transparent 34%);
+}
+
+/* Daylight is deliberately neutral: soften the screenshot's green cast and
+   dissolve its left boundary before the cream overlay takes over. */
+:root[data-theme="daylight"] .tj-hero-product {
+  filter: saturate(0.5) sepia(0.04);
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.2) 24%, #000 49%, #000 100%);
+  opacity: 0.9;
+}
+
+:root[data-theme="daylight"] .tj-hero-fade-x {
+  background: linear-gradient(
+    90deg,
+    var(--background) 0%,
+    color-mix(in srgb, var(--background) 99%, transparent) 28%,
+    color-mix(in srgb, var(--background) 93%, transparent) 49%,
+    color-mix(in srgb, var(--background) 68%, transparent) 72%,
+    color-mix(in srgb, var(--background) 24%, transparent) 100%
+  );
+}
+
+:root[data-theme="daylight"] .tj-hero-atmosphere {
+  background: radial-gradient(circle at 72% 36%, rgba(121, 104, 81, 0.07), transparent 36%);
+}
+
+/* The daylight browser mockup needs a diffuse paper-like lift, not a dense shelf. */
+.tj-browser-frame {
+  box-shadow: var(--browser-frame-shadow);
+}
+
+.tj-brand-dot {
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 /* Landing-page hero walkthrough: active step's progress bar fills left→right. */
@@ -100,7 +172,7 @@ html {
 
 .tj-loop-dots {
   fill: none;
-  stroke: #ffffff;
+  stroke: var(--foreground);
   stroke-width: 3.25;
   stroke-linecap: round;
   stroke-dasharray: 0.01 28.148;
@@ -109,7 +181,7 @@ html {
 
 .tj-loop-grain {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.18);
+  stroke: color-mix(in srgb, var(--foreground) 18%, transparent);
   stroke-width: 1;
   stroke-dasharray: 1 13;
   opacity: 0.22;
@@ -117,7 +189,7 @@ html {
 
 .tj-loop-dashes {
   fill: none;
-  stroke: var(--green);
+  stroke: var(--accent);
   stroke-width: 1.35;
   stroke-linecap: round;
   stroke-dasharray: 4 6;
@@ -126,21 +198,21 @@ html {
 
 .tj-loop-outer-dash {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.1);
+  stroke: color-mix(in srgb, var(--foreground) 10%, transparent);
   stroke-width: 1;
   stroke-dasharray: 1 6;
 }
 
 .tj-loop-outer-mid-dots {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.14);
+  stroke: color-mix(in srgb, var(--foreground) 14%, transparent);
   stroke-width: 1.5;
   stroke-dasharray: 2 7;
 }
 
 .tj-loop-outer-mid-ticks {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.55);
+  stroke: color-mix(in srgb, var(--foreground) 55%, transparent);
   stroke-width: 3;
   stroke-linecap: round;
   stroke-dasharray: 0.01 490;
@@ -149,7 +221,7 @@ html {
 
 .tj-loop-pinwheel {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.5);
+  stroke: color-mix(in srgb, var(--foreground) 50%, transparent);
   stroke-width: 1;
   stroke-dasharray: 1 9;
   opacity: 0.12;
@@ -157,7 +229,7 @@ html {
 
 .tj-loop-arc {
   fill: none;
-  stroke: var(--green);
+  stroke: var(--accent);
   stroke-width: 2.5;
   stroke-linecap: round;
   opacity: 0.2;
@@ -172,14 +244,14 @@ html {
 }
 
 .tj-loop-trail {
-  stroke: color-mix(in srgb, var(--green) 80%, white 20%);
+  stroke: color-mix(in srgb, var(--accent) 80%, var(--surface) 20%);
   stroke-width: 3.1;
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
 }
 
 .tj-loop-comet {
-  stroke: #c9f7dd;
+  stroke: color-mix(in srgb, var(--accent) 35%, var(--surface) 65%);
   stroke-width: 3.4;
   stroke-dasharray: 5 195;
   stroke-dashoffset: 5;
@@ -194,28 +266,41 @@ html {
 }
 
 .tj-loop-node-ripple {
-  stroke: #4fe08f;
+  stroke: color-mix(in srgb, var(--accent) 75%, var(--surface) 25%);
   stroke-width: 1.5;
 }
 
 .tj-loop-node-flare {
-  stroke: #7df0b4;
+  stroke: color-mix(in srgb, var(--accent) 50%, var(--surface) 50%);
   stroke-width: 2;
 }
 
 .tj-loop-card-glow {
   opacity: 0;
   pointer-events: none;
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 16%, transparent),
+    0 10px 40px -10px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.tj-loop-ambient-glow {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 8%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 4.5%, transparent) 42%,
+    transparent 72%
+  );
 }
 
 .tj-loop-conn {
-  stroke: var(--border);
+  stroke: var(--accent);
   stroke-dasharray: 1;
 }
 
 .tj-loop-card-trace {
   fill: none;
-  stroke: rgba(126, 240, 178, 0.85);
+  stroke: color-mix(in srgb, var(--accent) 85%, transparent);
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-dasharray: 100;
@@ -325,9 +410,9 @@ html {
 
   /* Card entrance, sequential around the loop (01 -> 02 -> 03 -> 04).
      Per card, base B = 1.1s + 0.8s * index:
-     connector draws at B (green), the border traces from that corner at
-     B + .35s, then the surface and content fade in at ~B + .95s while the
-     green trace dissolves and the connector settles to the border color. */
+     connector draws at B in the accent color, the border traces from that
+     corner at B + .35s, then the surface and content fade in at ~B + .95s
+     while the accent trace dissolves and the connector settles to the border. */
   .tj-loop-entered .tj-loop-conn {
     animation:
       tj-loop-conn-draw 0.4s ease-out both,
@@ -454,13 +539,25 @@ html {
     stroke-dashoffset: 1;
     opacity: 0;
   }
+
+  to {
+    stroke: var(--accent);
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
 }
 
-/* Backwards fill keeps the connector green from the moment it draws until
-   the card surface fades in, then it eases to the resting border color. */
+/* Backwards fill keeps the connector in the accent color from the moment it
+   draws until the card surface fades in, then it eases to the border color. */
 @keyframes tj-loop-conn-settle {
   from {
-    stroke: rgba(126, 240, 178, 0.85);
+    stroke: var(--accent);
+    opacity: 1;
+  }
+
+  to {
+    stroke: var(--border);
+    opacity: 1;
   }
 }
 

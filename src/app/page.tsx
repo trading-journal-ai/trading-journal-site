@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 const githubUrl = "https://github.com/trading-journal-ai/trading-journal";
 const demoUrl = process.env.NEXT_PUBLIC_DEMO_URL ?? "https://demo.trading-journal.ai/demo";
@@ -53,7 +53,7 @@ const localCards = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#0b0d12] text-[var(--foreground)]">
+    <div className="min-h-screen overflow-hidden bg-[var(--background)] text-[var(--foreground)]">
       <SiteHeader />
 
       <main>
@@ -72,10 +72,10 @@ export default function LandingPage() {
 
 function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--hairline)] bg-[#0b0d12]/75 backdrop-blur-xl">
+    <header className="tj-header sticky top-0 z-50 border-b border-[var(--hairline)] backdrop-blur-xl">
       <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center justify-between px-6 md:px-8">
         <Link href="/" className="flex items-center gap-2.5 text-[15.5px] font-bold tracking-tight">
-          <span className="size-2.5 rounded-full bg-[var(--green)] shadow-[0_0_12px_rgba(29,178,107,.5)]" />
+          <span className="tj-brand-dot size-2.5 rounded-full bg-[var(--accent)]" />
           <span>Trading Journal AI</span>
         </Link>
 
@@ -99,7 +99,7 @@ function SiteHeader() {
           </a>
           <Link
             href={demoUrl}
-            className="inline-flex h-9 items-center rounded-lg bg-[var(--foreground)] px-4 text-[13.5px] font-semibold text-[#0b0d12] transition-opacity hover:opacity-90"
+            className="inline-flex h-9 items-center rounded-lg bg-[var(--foreground)] px-4 text-[13.5px] font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
           >
             View the demo
           </Link>
@@ -114,17 +114,17 @@ function Hero() {
     <section className="relative isolate overflow-hidden border-b border-[var(--hairline)]">
       <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-30 hidden h-[620px] overflow-hidden md:block md:h-[670px] lg:h-[720px]">
         <div
-          className="absolute left-1/2 top-0 h-full w-[calc(100%-3rem)] max-w-[1136px] -translate-x-1/2 bg-[length:auto_94%] bg-[right_top] bg-no-repeat opacity-85 md:w-[calc(100%-4rem)]"
+          className="tj-hero-product absolute left-1/2 top-0 h-full w-[calc(100%-3rem)] max-w-[1136px] -translate-x-1/2 bg-[length:auto_94%] bg-[right_top] bg-no-repeat opacity-85 md:w-[calc(100%-4rem)]"
           style={{ backgroundImage: "url(/landing-page/trading-journal-hero.png)" }}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#0b0d12_0%,rgba(11,13,18,.98)_30%,rgba(11,13,18,.8)_52%,rgba(11,13,18,.35)_78%,rgba(11,13,18,.18)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,13,18,0)_0%,rgba(11,13,18,.24)_58%,#0b0d12_100%)]" />
-        <div className="absolute left-1/2 top-0 h-[calc(100%-40px)] w-[calc(100%-3rem)] max-w-[1136px] -translate-x-1/2 bg-[radial-gradient(circle_at_72%_36%,rgba(89,230,158,.12),transparent_34%)] md:w-[calc(100%-4rem)]" />
+        <div className="tj-hero-fade-x absolute inset-0" />
+        <div className="tj-hero-fade-y absolute inset-0" />
+        <div className="tj-hero-atmosphere absolute left-1/2 top-0 h-[calc(100%-40px)] w-[calc(100%-3rem)] max-w-[1136px] -translate-x-1/2 md:w-[calc(100%-4rem)]" />
       </div>
 
       <div className="mx-auto w-full max-w-[1200px] px-6 pb-12 pt-16 md:px-8 md:pt-[72px] lg:pb-14">
         <div className="max-w-[760px]">
-          <SectionEyebrow className="text-[11.5px] text-[var(--green)]">
+          <SectionEyebrow className="text-[11.5px] text-[var(--accent)]">
             Local-first trading journal
           </SectionEyebrow>
           <h1 className="mt-5 max-w-[860px] text-balance text-[44px] font-semibold leading-[1.05] tracking-[-0.03em] sm:text-[64px] md:text-[88px]">
@@ -142,7 +142,7 @@ function Hero() {
               View on GitHub
             </GhostButton>
           </div>
-          <p className="mt-[18px] font-mono text-xs text-[var(--muted)]">
+          <p className="mt-[18px] text-[13px] text-[var(--muted)]">
             No signup · No subscription · Your data stays on your machine
           </p>
         </div>
@@ -186,7 +186,7 @@ function HeroWalkthrough() {
                 {isActive ? (
                   <span
                     key={active}
-                    className="absolute inset-0 origin-left bg-[var(--green)]"
+                    className="absolute inset-0 origin-left bg-[var(--accent)]"
                     style={{
                       transform: paused ? "scaleX(1)" : "scaleX(0)",
                       animation: paused ? "none" : "tj-growx 4.2s linear forwards",
@@ -194,13 +194,13 @@ function HeroWalkthrough() {
                   />
                 ) : (
                   <span
-                    className="absolute inset-0 origin-left bg-[var(--green)]"
+                    className="absolute inset-0 origin-left bg-[var(--accent)]"
                     style={{ transform: isComplete ? "scaleX(1)" : "scaleX(0)" }}
                   />
                 )}
               </span>
               <span className="flex items-baseline gap-2">
-                <span className={`font-mono text-[11px] ${isActive ? "text-[var(--green)]" : "text-[var(--faint)]"}`}>
+                <span className={`font-mono text-[11px] ${isActive ? "text-[var(--accent)]" : "text-[var(--faint)]"}`}>
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span className={`text-sm font-semibold ${isActive ? "text-[var(--foreground)]" : "text-[var(--muted)]"}`}>
@@ -242,7 +242,7 @@ function ReviewHabit() {
     <section id="review" className="scroll-mt-24">
       <div className="mx-auto w-full max-w-[1200px] px-6 pb-8 pt-24 md:px-8">
         <div className="max-w-[760px]">
-          <SectionEyebrow className="text-[var(--green)]">The review habit</SectionEyebrow>
+          <SectionEyebrow className="text-[var(--accent)]">The review habit</SectionEyebrow>
           <h2 className="mt-[18px] text-balance text-[32px] font-semibold leading-[1.08] tracking-[-0.025em] md:text-[40px]">
             Review faster. Build your playbook.
             <br />
@@ -268,7 +268,9 @@ function ReviewHabit() {
             </PreviewFrame>
           </div>
           <div className="order-1 lg:order-2 lg:pt-12">
-            <p className="font-mono text-xs text-[var(--green)]">01 · See the day in context</p>
+            <p className="text-[13px] font-semibold text-[var(--accent)]">
+              <span className="font-mono font-medium">01</span> · See the day in context
+            </p>
             <h3 className="mt-3.5 text-[25px] font-semibold leading-tight tracking-[-0.01em]">
               The recap leads, the data follows.
             </h3>
@@ -283,7 +285,9 @@ function ReviewHabit() {
         {/* Feature 2: capture it fast (note + pills) */}
         <div className="grid gap-14 pt-16 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <div className="lg:pt-12">
-            <p className="font-mono text-xs text-[var(--green)]">02 · Capture it in seconds</p>
+            <p className="text-[13px] font-semibold text-[var(--accent)]">
+              <span className="font-mono font-medium">02</span> · Capture it in seconds
+            </p>
             <h3 className="mt-3.5 text-[25px] font-semibold leading-tight tracking-[-0.01em]">
               Tag the trade in your own language.
             </h3>
@@ -344,7 +348,7 @@ function CoachSection() {
               </div>
             ))}
           </div>
-          <p className="mt-[26px] font-mono text-[11.5px] text-[var(--faint)]">
+          <p className="mt-[26px] text-[12.5px] text-[var(--faint)]">
             Concept preview. Runs on your trades, on your machine.
           </p>
         </div>
@@ -461,7 +465,7 @@ function LearningLoopSection() {
     >
       <div className="mx-auto w-full max-w-[1200px] px-6 py-24 md:px-8">
         <div className="max-w-[760px]">
-          <SectionEyebrow className="text-[var(--green)]">Review system</SectionEyebrow>
+          <SectionEyebrow className="text-[var(--accent)]">Review system</SectionEyebrow>
           <h2 className="mt-[18px] max-w-[760px] text-balance text-[32px] font-semibold leading-[1.08] tracking-[-0.025em] md:text-[40px]">
             Four surfaces connected.
           </h2>
@@ -475,7 +479,7 @@ function LearningLoopSection() {
         <div className="relative mt-10 overflow-visible">
           <div
             aria-hidden="true"
-            className="tj-loop-glow-intro absolute left-1/2 top-1/2 hidden h-[580px] w-[580px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(29,178,107,.08)_0%,rgba(29,178,107,.045)_42%,transparent_72%)] blur-[18px] xl:block"
+            className="tj-loop-ambient-glow tj-loop-glow-intro absolute left-1/2 top-1/2 hidden h-[580px] w-[580px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[18px] xl:block"
           />
           <div className="relative mx-auto hidden h-[800px] max-w-[1120px] xl:block">
             <LoopOrbitSvg
@@ -499,7 +503,7 @@ function LearningLoopSection() {
           <div className="relative mx-auto aspect-square w-full max-w-[460px] overflow-visible xl:hidden">
             <div
               aria-hidden="true"
-              className="tj-loop-glow-intro absolute left-1/2 top-1/2 h-[118%] w-[118%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(29,178,107,.075)_0%,rgba(29,178,107,.04)_45%,transparent_74%)] blur-[14px]"
+              className="tj-loop-ambient-glow tj-loop-glow-intro absolute left-1/2 top-1/2 h-[118%] w-[118%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[14px]"
             />
             <LoopOrbitSvg
               glowId="landing-loop-soft-glow-mobile"
@@ -555,10 +559,10 @@ function LoopOrbitSvg({
     { d: "M406,554 A218 218 0 0 1 406,246", stepClassName: "tj-loop-step-3" },
   ];
   const connectors = [
-    ["406", "246", "372", "212"],
-    ["714", "246", "748", "212"],
-    ["714", "554", "748", "588"],
-    ["406", "554", "372", "588"],
+    ["406", "246", "376", "217"],
+    ["714", "246", "744", "217"],
+    ["714", "554", "744", "584"],
+    ["406", "554", "376", "584"],
   ] as const;
   const nodes = [
     { number: "01", x: 406, y: 246, stepClassName: "tj-loop-step-3" },
@@ -588,8 +592,8 @@ function LoopOrbitSvg({
 
       {!compact ? (
         <g className="tj-loop-settle-intro" style={{ transformOrigin: "560px 400px" }}>
-          <circle cx="560" cy="400" r="296" fill="none" stroke="rgba(255,255,255,.07)" strokeWidth="1" />
-          <circle cx="560" cy="400" r="326" fill="none" stroke="rgba(255,255,255,.09)" strokeWidth="1" />
+          <circle cx="560" cy="400" r="296" fill="none" stroke="var(--hairline)" strokeWidth="1" />
+          <circle cx="560" cy="400" r="326" fill="none" stroke="var(--border)" strokeWidth="1" />
           <g className="tj-loop-outer-mid-spin">
             <circle className="tj-loop-outer-mid-dots" cx="560" cy="400" r="312" />
             <circle className="tj-loop-outer-mid-ticks" cx="560" cy="400" r="312" />
@@ -599,12 +603,12 @@ function LoopOrbitSvg({
       ) : null}
 
       <g className="tj-loop-scale-intro" style={{ transformOrigin: "560px 400px" }}>
-        <circle className="tj-loop-fade-intro tj-loop-fade-delay-3" cx="560" cy="400" r="218" fill="none" stroke="rgba(255,255,255,.10)" strokeWidth="1.25" />
+        <circle className="tj-loop-fade-intro tj-loop-fade-delay-3" cx="560" cy="400" r="218" fill="none" stroke="var(--border)" strokeWidth="1.25" />
         <circle className="tj-loop-dots tj-loop-fade-intro tj-loop-fade-delay-2" cx="560" cy="400" r="184" />
         <circle className="tj-loop-grain tj-loop-fade-intro tj-loop-fade-delay-3" cx="560" cy="400" r="218" />
         <circle className="tj-loop-dashes tj-loop-fade-intro tj-loop-fade-delay-1" cx="560" cy="400" r="165" />
         <circle className="tj-loop-pinwheel tj-loop-fade-intro" cx="560" cy="400" r="140" />
-        <circle className="tj-loop-breath tj-loop-fade-intro" cx="560" cy="400" r="88" fill="none" stroke="rgba(29,178,107,.6)" strokeWidth="1" />
+        <circle className="tj-loop-breath tj-loop-fade-intro" cx="560" cy="400" r="88" fill="none" stroke="color-mix(in srgb, var(--accent) 60%, transparent)" strokeWidth="1" />
       </g>
 
       <g className="tj-loop-fade-intro tj-loop-fade-delay-4">
@@ -646,9 +650,9 @@ function LoopOrbitSvg({
         {nodes.map((node, index) => (
           <g key={node.number} className={`tj-loop-node-pop tj-loop-node-pop-${index}`}>
             <circle className={`tj-loop-node-ripple ${node.stepClassName}`} cx={node.x} cy={node.y} r="18" />
-            <circle cx={node.x} cy={node.y} r={showNumbers ? "18" : "16"} fill="#0b0d12" stroke="rgba(29,178,107,.55)" strokeWidth="1.5" />
+            <circle cx={node.x} cy={node.y} r={showNumbers ? "18" : "16"} fill="var(--background)" stroke="color-mix(in srgb, var(--accent) 55%, transparent)" strokeWidth="1.5" />
             <circle className={`tj-loop-node-flare ${node.stepClassName}`} cx={node.x} cy={node.y} r="16" filter={`url(#${softGlowId})`} />
-            <text x={node.x} y={node.y} dy="0.36em" fill={showNumbers ? "var(--green)" : "var(--foreground)"}>
+            <text x={node.x} y={node.y} dy="0.36em" fill={showNumbers ? "var(--accent)" : "var(--foreground)"}>
               {node.number}
             </text>
           </g>
@@ -737,11 +741,11 @@ function LoopDiagramCard({
   return (
     <article
       ref={cardRef}
-      className={`${mobile ? "relative" : `${className} ${enterClassName} absolute z-10 w-[272px]`} ${radiusClassName} group border border-[var(--border)] bg-[#0b0d12] p-6 shadow-[0_22px_54px_-32px_rgba(0,0,0,.85)] transition-colors hover:border-[rgba(110,231,168,.45)]`}
+      className={`${mobile ? "relative" : `${className} ${enterClassName} absolute z-10 w-[272px]`} ${radiusClassName} group border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_22px_54px_-32px_rgba(0,0,0,.42)] transition-colors hover:border-[rgba(110,231,168,.45)]`}
     >
       <div
         aria-hidden="true"
-        className={`tj-loop-card-glow ${pulseClassName} absolute inset-[-1px] ${radiusClassName} border border-[rgba(126,240,178,.6)] shadow-[0_0_0_1px_rgba(29,178,107,.16),0_10px_40px_-10px_rgba(29,178,107,.28)]`}
+        className={`tj-loop-card-glow ${pulseClassName} absolute inset-[-1px] ${radiusClassName} border`}
       />
       {!mobile && traceCorner && traceSize ? (
         <svg
@@ -759,11 +763,11 @@ function LoopDiagramCard({
       <div className="tj-loop-card-content">
         <div className="flex items-center gap-2">
           {mobile ? (
-            <span className="inline-flex items-center justify-center rounded-[5px] border border-[rgba(29,178,107,.35)] px-1.5 py-0.5 font-mono text-[10px] font-semibold leading-none tracking-[0.06em] text-[#34d27b]">
+            <span className="inline-flex items-center justify-center rounded-[5px] border border-[var(--accent)] px-1.5 py-0.5 font-mono text-[10px] font-semibold leading-none tracking-[0.06em] text-[var(--accent)]">
               {number}
             </span>
           ) : null}
-          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--green)]">
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
             {label}
           </span>
         </div>
@@ -783,7 +787,7 @@ function LocalFirstSection() {
     <section id="local" className="scroll-mt-24 border-b border-[var(--hairline)] bg-[var(--surface)]">
       <div className="mx-auto grid w-full max-w-[1200px] gap-16 px-6 py-[90px] md:px-8 lg:grid-cols-2 lg:items-start">
         <div>
-          <SectionEyebrow className="text-[var(--green)]">Local-first</SectionEyebrow>
+          <SectionEyebrow className="text-[var(--accent)]">Local-first</SectionEyebrow>
           <h2 className="mt-[18px] text-balance text-[30px] font-semibold leading-[1.1] tracking-[-0.02em] md:text-[38px]">
             Your trading day never leaves your machine.
           </h2>
@@ -806,7 +810,7 @@ function LocalFirstSection() {
         </div>
         <div className="grid overflow-hidden rounded-[10px] border border-[var(--border)] bg-[var(--hairline)] md:grid-cols-2 md:gap-px">
           {localCards.map((card) => (
-            <article key={card.title} className="bg-[#0b0d12] p-6">
+            <article key={card.title} className="bg-[var(--background)] p-6">
               <LocalCardIcon icon={card.icon} />
               <h3 className="mt-4 text-base font-semibold">{card.title}</h3>
               <p className="mt-2 text-[13.5px] leading-[1.55] text-[var(--prose,#99a3b1)]">{card.body}</p>
@@ -853,7 +857,7 @@ function InstallCommand() {
 
   return (
     <div className="mx-auto mt-10 max-w-[620px] text-left">
-      <p className="mb-2.5 text-center font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
+      <p className="mb-2.5 text-center text-[13px] font-semibold text-[var(--muted)]">
         Or run it locally
       </p>
       <button
@@ -865,7 +869,7 @@ function InstallCommand() {
           <span className="text-[var(--muted)]">$ </span>
           git clone … &amp;&amp; ./install-trading-journal.sh
         </code>
-        <span className={`shrink-0 font-mono text-xs font-semibold ${copied ? "text-[var(--green)]" : "text-[var(--muted)]"}`}>
+        <span className={`shrink-0 text-[13px] font-semibold ${copied ? "text-[var(--green)]" : "text-[var(--muted)]"}`}>
           {copied ? "Copied ✓" : "Copy"}
         </span>
       </button>
@@ -878,11 +882,11 @@ function SiteFooter() {
     <footer className="border-t border-[var(--hairline)]">
       <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-4 px-6 py-[34px] md:flex-row md:items-center md:justify-between md:px-8">
         <div className="flex items-center gap-2.5">
-          <span className="size-2 rounded-full bg-[var(--green)]" />
+          <span className="size-2 rounded-full bg-[var(--accent)]" />
           <span className="text-[13.5px] font-semibold text-[var(--body)]">Trading Journal AI</span>
-          <span className="ml-1.5 font-mono text-xs text-[var(--faint)]">trading-journal.ai</span>
+          <span className="ml-1.5 text-[13px] text-[var(--faint)]">trading-journal.ai</span>
         </div>
-        <div className="flex gap-6 font-mono text-xs text-[var(--muted)]">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-4 text-[13px] text-[var(--muted)]">
           <Link href={demoUrl} className="transition-colors hover:text-[var(--foreground)]">
             Demo
           </Link>
@@ -896,9 +900,91 @@ function SiteFooter() {
           </a>
           <span>MIT License</span>
           <span>© 2026</span>
+          <ThemeToggle />
         </div>
       </div>
     </footer>
+  );
+}
+
+const THEME_EVENT = "tj-theme-change";
+
+function subscribeTheme(onChange: () => void) {
+  window.addEventListener(THEME_EVENT, onChange);
+  return () => window.removeEventListener(THEME_EVENT, onChange);
+}
+
+function readTheme(): "dark" | "daylight" {
+  return document.documentElement.getAttribute("data-theme") === "daylight" ? "daylight" : "dark";
+}
+
+function ThemeToggle() {
+  // Server + first client render resolve to "dark" (the default, no data-theme),
+  // matching the no-flash script's baseline, then sync to the live DOM attribute.
+  const theme = useSyncExternalStore(subscribeTheme, readTheme, () => "dark");
+
+  const apply = (next: "dark" | "daylight") => {
+    if (next === "daylight") {
+      document.documentElement.setAttribute("data-theme", "daylight");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+    try {
+      localStorage.setItem("tj-theme", next);
+    } catch {
+      /* storage unavailable — theme still applies for the session */
+    }
+    window.dispatchEvent(new Event(THEME_EVENT));
+  };
+
+  const options: { value: "dark" | "daylight"; label: string; Icon: () => React.ReactElement }[] = [
+    { value: "dark", label: "Dark", Icon: MoonIcon },
+    { value: "daylight", label: "Daylight", Icon: SunIcon },
+  ];
+
+  return (
+    <div
+      role="group"
+      aria-label="Color theme"
+      className="inline-flex items-center rounded-full border border-[var(--border)] p-0.5"
+    >
+      {options.map(({ value, label, Icon }) => {
+        const active = theme === value;
+        return (
+          <button
+            key={value}
+            type="button"
+            onClick={() => apply(value)}
+            aria-pressed={active}
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12.5px] font-medium transition-colors ${
+              active
+                ? "bg-[var(--surface-2)] text-[var(--foreground)]"
+                : "text-[var(--muted)] hover:text-[var(--foreground)]"
+            }`}
+          >
+            <Icon />
+            {label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function SunIcon() {
+  return (
+    <svg className="size-[13px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg className="size-[13px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+    </svg>
   );
 }
 
@@ -925,16 +1011,16 @@ function MiniNav({ active }: { active: string }) {
 
 function RecapScreen({ hideNav = false }: { hideNav?: boolean }) {
   return (
-    <div className="min-h-[440px] bg-[#0d121a]">
+    <div className="min-h-[440px] bg-[var(--surface)]">
       {!hideNav && <MiniNav active="Journal" />}
       <div className="px-7 py-6">
-        <p className="font-mono text-[12.5px] text-[var(--muted)]">Week 2 · June 8 – June 12 2026</p>
+        <p className="text-[13px] text-[var(--muted)]">Week 2 · June 8 – June 12 2026</p>
         <div className="mt-4 flex items-baseline gap-3.5">
           <span className="size-2.5 self-center rounded-full bg-[var(--green)]" />
           <h3 className="text-[32px] font-semibold leading-none">Monday</h3>
           <span className="font-mono text-lg text-[var(--green)]">8</span>
         </div>
-        <p className="mt-3 pl-6 font-mono text-[13.5px] text-[var(--body)]">
+        <p className="mt-3 pl-6 text-[13.5px] tabular-nums text-[var(--body)]">
           5 trades <span className="text-[var(--faint)]">·</span> 63% win{" "}
           <span className="text-[var(--faint)]">·</span> PF 1.64{" "}
           <span className="text-[var(--faint)]">·</span>{" "}
@@ -951,7 +1037,7 @@ function RecapScreen({ hideNav = false }: { hideNav?: boolean }) {
             </p>
             <div className="mt-4 flex gap-2">
               {["Patient", "Followed plan"].map((tag) => (
-                <span key={tag} className="rounded-md bg-[rgba(29,178,107,.16)] px-2.5 py-1 font-mono text-[11.5px] text-[var(--green)]">
+                <span key={tag} className="rounded-md bg-[rgba(29,178,107,.16)] px-2.5 py-1 text-[12px] font-medium text-[var(--green)]">
                   {tag}
                 </span>
               ))}
@@ -990,19 +1076,19 @@ function RecapScreen({ hideNav = false }: { hideNav?: boolean }) {
 
 function ReviewScreen() {
   return (
-    <div className="min-h-[440px] bg-[#0d121a]">
+    <div className="min-h-[440px] bg-[var(--surface)]">
       <MiniNav active="Trades" />
       <div className="px-7 py-6">
-        <p className="font-mono text-xs text-[var(--muted)]">
+        <p className="text-[13px] text-[var(--muted)]">
           <span className="text-[var(--body)]">‹ NPT</span> &nbsp;|&nbsp; Trades / NPT /{" "}
           <span className="font-semibold text-[var(--foreground)]">Trade 1</span>
         </p>
         <div className="mt-4 flex items-end gap-3.5">
           <h3 className="text-[30px] font-semibold tracking-[-0.01em]">NPT</h3>
-          <span className="pb-1 font-mono text-[13px] text-[var(--muted)]">Jun 08, 2026 · Trade 1</span>
+          <span className="pb-1 text-[13px] text-[var(--muted)]">Jun 08, 2026 · Trade 1</span>
         </div>
         <div className="mt-5 grid gap-7 md:grid-cols-[1fr_280px] md:items-start">
-          <div className="rounded-md border border-[var(--border)] bg-[#0b0d12] px-4 pb-1.5 pt-3.5">
+          <div className="rounded-md border border-[var(--border)] bg-[var(--background)] px-4 pb-1.5 pt-3.5">
             <PnlSparkline />
           </div>
           <div>
@@ -1020,7 +1106,7 @@ function ReviewScreen() {
             <SectionEyebrow>Playbook Example</SectionEyebrow>
             <div className="mt-3 inline-flex items-center gap-2">
               <span className="size-1.5 rounded-full bg-[var(--green)]" />
-              <span className="font-mono text-[11px] text-[var(--green)]">Best setup</span>
+              <span className="text-[12px] font-medium text-[var(--green)]">Best setup</span>
             </div>
             <p className="mt-3 text-pretty text-[15.5px] leading-[1.6] text-[var(--prose,#99a3b1)]">
               Textbook green-to-red reclaim. Entered on the reclaim, added on the first
@@ -1036,10 +1122,10 @@ function ReviewScreen() {
 
 function CoachScreen() {
   return (
-    <div className="min-h-[440px] bg-[#0d121a]">
+    <div className="min-h-[440px] bg-[var(--surface)]">
       <MiniNav active="Trades" />
       <div className="px-7 py-6">
-        <p className="font-mono text-xs text-[var(--muted)]">
+        <p className="text-[13px] text-[var(--muted)]">
           <span className="text-[var(--body)]">‹ NPT</span> &nbsp;|&nbsp; Trades / NPT /{" "}
           <span className="font-semibold text-[var(--foreground)]">Trade 1</span>
         </p>
@@ -1047,9 +1133,9 @@ function CoachScreen() {
           <div>
             <div className="flex items-end gap-3.5">
               <h3 className="text-[28px] font-semibold tracking-[-0.01em]">NPT</h3>
-              <span className="pb-1 font-mono text-[12.5px] text-[var(--muted)]">Jun 08 · Trade 1</span>
+              <span className="pb-1 text-[12.5px] text-[var(--muted)]">Jun 08 · Trade 1</span>
             </div>
-            <div className="mt-4 rounded-md border border-[var(--border)] bg-[#0b0d12] px-3.5 pb-1 pt-3">
+            <div className="mt-4 rounded-md border border-[var(--border)] bg-[var(--background)] px-3.5 pb-1 pt-3">
               <PnlSparkline compact />
             </div>
             <div className="mt-3.5 flex gap-5">
@@ -1074,7 +1160,7 @@ function CoachScreen() {
 
 function BrowserFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-[0_40px_90px_-30px_rgba(0,0,0,.7)]">
+    <div className="tj-browser-frame overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)]">
       <div className="flex items-center gap-3.5 border-b border-[var(--hairline)] px-4 py-3">
         <div className="flex gap-1.5">
           <span className="size-[11px] rounded-full bg-[#ff5f57]" />
@@ -1082,7 +1168,7 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
           <span className="size-[11px] rounded-full bg-[#28c840]" />
         </div>
         <div className="flex flex-1 justify-center">
-          <div className="flex items-center gap-1.5 rounded-md border border-[var(--hairline)] bg-[#0b0d12] px-3.5 py-1 font-mono text-xs text-[var(--muted)]">
+          <div className="flex items-center gap-1.5 rounded-md border border-[var(--hairline)] bg-[var(--background)] px-3.5 py-1 font-mono text-xs text-[var(--muted)]">
             <LockGlyph />
             demo.trading-journal.ai/demo
           </div>
@@ -1096,7 +1182,7 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
 
 function PreviewFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="overflow-hidden rounded-xl bg-[var(--surface)] shadow-[0_30px_70px_-34px_rgba(0,0,0,.6)]">
+    <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-[0_30px_70px_-34px_rgba(0,0,0,.32)]">
       {children}
     </div>
   );
@@ -1104,11 +1190,11 @@ function PreviewFrame({ children }: { children: React.ReactNode }) {
 
 function NoteComposerCard() {
   return (
-    <div className="rounded-2xl bg-[var(--surface)] p-7 shadow-[0_30px_70px_-30px_rgba(0,0,0,.6)]">
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 shadow-[0_30px_70px_-30px_rgba(0,0,0,.32)]">
       <div className="flex items-baseline justify-between">
         <SectionEyebrow>Trade Note</SectionEyebrow>
-        <span className="font-mono text-xs text-[var(--muted)]">
-          NPT · Trade 1 · <span className="text-[var(--green)]">+$15.44</span>
+        <span className="text-[13px] text-[var(--muted)]">
+          NPT · Trade 1 · <span className="font-mono text-[var(--green)]">+$15.44</span>
         </span>
       </div>
 
@@ -1121,7 +1207,7 @@ function NoteComposerCard() {
         <Pill label="Rule break" tone="negative" />
       </div>
 
-      <div className="mt-5 rounded-[10px] border border-[var(--border)] bg-[#0b0d12] px-[18px] py-4">
+      <div className="mt-5 rounded-[10px] border border-[var(--border)] bg-[var(--background)] px-[18px] py-4">
         <p className="text-pretty text-base leading-[1.62] text-[var(--foreground)]">
           Textbook green-to-red reclaim. Entered on the reclaim, added on the first
           pullback, trimmed half into the move. The A+ I keep talking about:
@@ -1150,8 +1236,8 @@ function NoteComposerCard() {
       </div>
 
       <div className="mt-6 flex items-center justify-between border-t border-[var(--hairline)] pt-[18px]">
-        <span className="font-mono text-[11.5px] text-[var(--faint)]">Autosaves to your local file</span>
-        <span className="inline-flex items-center gap-2 rounded-lg bg-[var(--green)] px-4 py-2 text-[13.5px] font-semibold text-[#06121f]">
+        <span className="text-[12px] text-[var(--faint)]">Autosaves to your local file</span>
+        <span className="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-[13.5px] font-semibold text-[var(--body)]">
           Save note
         </span>
       </div>
@@ -1161,12 +1247,12 @@ function NoteComposerCard() {
 
 function CoachCard({ embedded = false }: { embedded?: boolean }) {
   return (
-    <div className={embedded ? "rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5" : "rounded-2xl bg-[#0f141c] p-7 md:p-8"}>
+    <div className={embedded ? "rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5" : "rounded-2xl bg-[var(--surface)] p-7 md:p-8"}>
       <div className="flex items-center justify-between gap-6">
-        <div className="flex items-center gap-2 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[var(--blue)]">
+        <div className="flex items-center gap-2 text-[13px] font-semibold text-[var(--blue)]">
           <SparkIcon />
           <span>Coach review</span>
-          {!embedded && <span className="text-[var(--muted)]">· NPT · Trade 1</span>}
+          {!embedded && <span className="font-normal text-[var(--muted)]">· NPT · Trade 1</span>}
         </div>
       </div>
       <GroupLabel className="mt-5">Read against your playbook</GroupLabel>
@@ -1204,7 +1290,7 @@ function CoachCard({ embedded = false }: { embedded?: boolean }) {
             <SparkIcon />
             Use as note draft
           </span>
-          <span className="font-mono text-[10.5px] text-[var(--faint)]">You always edit before it saves</span>
+          <span className="text-[12px] text-[var(--faint)]">You always edit before it saves</span>
         </div>
       </div>
     </div>
@@ -1214,9 +1300,9 @@ function CoachCard({ embedded = false }: { embedded?: boolean }) {
 function PnlSparkline({ compact = false }: { compact?: boolean }) {
   return (
     <div>
-      <div className="flex justify-between font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">
+      <div className="flex justify-between text-[12px] font-semibold text-[var(--muted)]">
         <span>NPT · 1m</span>
-        <span className="text-[var(--green)]">114.62 → 115.04</span>
+        <span className="font-mono text-[var(--green)]">114.62 → 115.04</span>
       </div>
       <svg
         viewBox="0 0 640 170"
@@ -1224,7 +1310,7 @@ function PnlSparkline({ compact = false }: { compact?: boolean }) {
         role="img"
         aria-label="NPT price chart preview"
       >
-        <line x1="0" y1="116" x2="640" y2="116" stroke="rgba(255,255,255,.12)" strokeDasharray="5 6" />
+        <line x1="0" y1="116" x2="640" y2="116" stroke="var(--hairline)" strokeDasharray="5 6" />
         <path
           d="M0 110 L70 122 L132 130 L210 96 L282 86 L360 64 L448 70 L520 44 L640 30 L640 116 L0 116 Z"
           fill="rgba(29,178,107,.18)"
@@ -1254,13 +1340,14 @@ function Pill({
   active?: boolean;
   plus?: boolean;
 }) {
+  const isPositiveTag = active && tone === "positive";
   let cls = "border-[var(--border)] text-[var(--muted)]";
-  if (active && tone === "positive") cls = "border-[rgba(29,178,107,.6)] bg-[rgba(29,178,107,.16)] text-[var(--green)]";
+  if (isPositiveTag) cls = "bg-[rgba(29,178,107,.16)] text-[var(--green)]";
   else if (active && tone === "negative") cls = "border-[rgba(240,81,67,.6)] bg-[rgba(240,81,67,.16)] text-[var(--red)]";
   else if (active) cls = "border-[var(--muted)] bg-[var(--surface-2)] text-[var(--foreground)]";
 
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-mono text-xs font-medium ${cls}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-medium ${isPositiveTag ? "" : "border"} ${cls}`}>
       {active && !plus && <span className="size-[5px] rounded-full bg-current" />}
       {plus && <span className="text-[13px] leading-none opacity-70">+</span>}
       {label}
@@ -1270,7 +1357,7 @@ function Pill({
 
 function GroupLabel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={`font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[var(--faint)] ${className}`}>
+    <p className={`text-[13px] font-semibold text-[var(--muted)] ${className}`}>
       {children}
     </p>
   );
@@ -1283,18 +1370,14 @@ function SectionEyebrow({
   children: React.ReactNode;
   className?: string;
 }) {
-  return (
-    <p className={`font-mono text-[10.5px] font-medium uppercase tracking-[0.16em] ${className}`}>
-      {children}
-    </p>
-  );
+  return <p className={`text-[13px] font-semibold ${className}`}>{children}</p>;
 }
 
 function PrimaryButton({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
       href={href}
-      className="inline-flex h-12 items-center justify-center gap-2 rounded-[9px] bg-[var(--foreground)] px-[22px] text-[15px] font-semibold text-[#0b0d12] transition-opacity hover:opacity-90"
+      className="inline-flex h-12 items-center justify-center gap-2 rounded-[9px] bg-[var(--foreground)] px-[22px] text-[15px] font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
     >
       {children}
       <ArrowRight className="ml-0" />
@@ -1326,7 +1409,7 @@ function ArrowRight({ className = "ml-3" }: { className?: string }) {
 
 function LockGlyph() {
   return (
-    <svg className="size-[11px]" viewBox="0 0 14 14" fill="none" stroke="var(--green)" strokeWidth="1.6" aria-hidden="true">
+    <svg className="size-[11px]" viewBox="0 0 14 14" fill="none" stroke="var(--accent)" strokeWidth="1.6" aria-hidden="true">
       <rect x="3" y="6.5" width="8" height="5.5" rx="1" />
       <path d="M4.5 6.5V4.5a2.5 2.5 0 0 1 5 0v2" />
     </svg>
@@ -1336,7 +1419,7 @@ function LockGlyph() {
 function LocalCardIcon({ icon }: { icon: string }) {
   if (icon === "monitor") {
     return (
-      <svg className="size-5 text-[var(--green)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className="size-5 text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="3" y="4" width="18" height="13" rx="2" />
         <path d="M8 21h8" />
         <path d="M12 17v4" />
@@ -1346,7 +1429,7 @@ function LocalCardIcon({ icon }: { icon: string }) {
 
   if (icon === "lock") {
     return (
-      <svg className="size-5 text-[var(--green)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className="size-5 text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="4" y="10" width="16" height="11" rx="2" />
         <path d="M8 10V7a4 4 0 0 1 8 0v3" />
       </svg>
@@ -1355,7 +1438,7 @@ function LocalCardIcon({ icon }: { icon: string }) {
 
   if (icon === "help") {
     return (
-      <svg className="size-5 text-[var(--green)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className="size-5 text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="9" />
         <path d="M9.5 9.5a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 2-2 3" />
         <path d="M12 17h.01" />
@@ -1363,7 +1446,7 @@ function LocalCardIcon({ icon }: { icon: string }) {
     );
   }
 
-  return <GitHubIcon className="size-5 text-[var(--green)]" />;
+  return <GitHubIcon className="size-5 text-[var(--accent)]" />;
 }
 
 function GitHubIcon({ className = "size-[17px]" }: { className?: string }) {
