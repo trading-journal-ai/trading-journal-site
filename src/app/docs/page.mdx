@@ -20,19 +20,28 @@ rules and playbooks, and richer capture are still being built. See the
 
 ## What it does
 
-The app is organized around a simple daily rhythm:
+The app is built around one operating loop for the trading day:
 
-- **Journal** — import your trades, write a short recap of the day, and tag each trade
-  in your own language (what the setup was, how you executed, how you felt). *Available
-  today.*
-- **Coach** *(in development)* — an AI reviewer that reads your trades against the rules
-  *you* define and drafts a recap and feedback in your voice, which you always edit before
-  it saves. An early version runs today with your own OpenAI key.
-- **Dashboard** *(in development)* — carries the lesson from your last session into the
-  next one, with reminders, check-ins, and your current focus.
+> **Dashboard prompts. Journal captures. Coach synthesizes. Dashboard reminds.**
 
-Together these form a learning loop: the journal captures the day, the coach turns it
-into a focused lesson, and the dashboard brings that lesson back when it matters.
+- **Dashboard prompts** *(in development)* — during the session, the dashboard is the
+  active-day surface: your morning plan, the rules and risk guardrail kept visible while
+  you trade, and midday check-ins that ask "should I keep trading?" — with your answers
+  routed into the day's recap.
+- **Journal captures** — the durable record, and the source of truth. Import your trades,
+  write a short recap of the day, and tag each trade in your own language (what the setup
+  was, how you executed, how you felt). *Available today.*
+- **Coach synthesizes** *(in development)* — an AI reviewer that reads that record against
+  the rules *you* define and drafts feedback in your voice: what worked, what broke, and
+  one focused thing to try next session. You always edit before it saves. An early version
+  runs today with your own OpenAI key.
+- **Dashboard reminds** *(in development)* — before the next session, the dashboard brings
+  the active lesson back: the current experiment, the risk guardrail, the cue worth keeping
+  in view.
+
+The loop starts and ends with the journal. Your trades, charts, calendar, and analytics
+aren't a separate destination — they're the evidence that flows through all three surfaces
+so the story of each day stays grounded in what actually happened.
 
 ## What makes it different
 
