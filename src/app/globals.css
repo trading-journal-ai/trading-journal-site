@@ -94,8 +94,8 @@ html {
 /* Daylight is deliberately neutral: soften the screenshot's green cast and
    dissolve its left boundary before the cream overlay takes over. */
 :root[data-theme="daylight"] .tj-hero-product {
-  filter: saturate(0.5) sepia(0.04);
-  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.2) 24%, #000 49%, #000 100%);
+  filter: saturate(0.88) sepia(0.03);
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.25) 24%, #000 49%, #000 100%);
   opacity: 1;
 }
 
@@ -103,10 +103,10 @@ html {
   background: linear-gradient(
     90deg,
     var(--background) 0%,
-    color-mix(in srgb, var(--background) 99%, transparent) 28%,
-    color-mix(in srgb, var(--background) 93%, transparent) 49%,
-    color-mix(in srgb, var(--background) 68%, transparent) 72%,
-    color-mix(in srgb, var(--background) 24%, transparent) 100%
+    color-mix(in srgb, var(--background) 96%, transparent) 28%,
+    color-mix(in srgb, var(--background) 74%, transparent) 49%,
+    color-mix(in srgb, var(--background) 30%, transparent) 72%,
+    transparent 100%
   );
 }
 
