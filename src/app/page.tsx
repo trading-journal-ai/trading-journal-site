@@ -56,7 +56,7 @@ const localCards = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen overflow-hidden bg-[var(--background)] text-[var(--foreground)]">
+    <div className="min-h-screen overflow-x-clip bg-[var(--background)] text-[var(--foreground)]">
       <SiteHeader />
 
       <main>
