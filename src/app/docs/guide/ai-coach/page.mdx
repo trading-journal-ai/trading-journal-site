@@ -6,9 +6,11 @@ export const metadata = {
 # The AI Coach
 
 <Note title="In development">
-The coach is an **early preview**, not a finished feature. In the hosted demo you'll see
-seeded examples of what a coach review looks like; live, on-your-trades coaching is still
-being built. This page describes where it's headed so the direction is clear.
+The coach is an **early version**, not a finished feature. An early form of live review
+already works: configure your own OpenAI API key locally and the coach can draft a review
+of your actual trades today. The hosted demo shows seeded examples of what that looks
+like. The guided setup, other model providers, and deeper rule-checking are still being
+built — this page describes both what works now and where it's headed.
 </Note>
 
 The coach is a post-trade review assistant that reads the context you've already
@@ -18,21 +20,22 @@ than generic trading advice.
 
 ## Codify your edge first
 
-The coach works best against a standard *you* define. The planned home for that is a setup
-workspace in **Settings**, where you'll be able to:
+The coach works best against a standard *you* define. The home for that is a setup
+workspace in **Settings** — the first pieces (connecting a model provider and editing
+your playbook) are there today, and the rest is filling in:
 
-- add your own language-model API key (the coach runs on your key, on your machine),
-- complete a short trader self-assessment,
+- add your own language-model API key (OpenAI works today; other providers are planned),
+- complete a short trader self-assessment *(coming)*,
 - define your rules and setups, and
-- tune how the coach reviews.
+- tune how the coach reviews *(coming)*.
 
 That rubric is what turns "was this a good trade?" into "did this match *my* A+ setup?"
 
-## How a review will work
+## How a review works
 
-Once your rules are in place, asking the coach to review a trade or a day will:
+With a model key configured, asking the coach to review a day will:
 
-- read the trade against your criteria,
+- read your trades against your playbook and criteria,
 - point to where you followed your plan and where you drifted, and
 - draft a recap and feedback in your voice.
 
@@ -42,12 +45,14 @@ This principle holds throughout the design:
 
 - The coach **proposes**; it never posts on its own.
 - Every recap and note arrives as a **draft** you read and edit.
-- It runs locally against your own API key — your trades aren't handed to a hosted service
-  to make this work.
+- Nothing is sent anywhere unless *you* ask for a review. When you do, the trades, notes,
+  and tags for that session go to the model provider **you** configured, under **your own
+  API key** — never through our servers, and never automatically in the background. No
+  key configured means nothing ever leaves your machine.
 
 ## What you can do today
 
 While the coach matures, the most valuable thing is to build the habit it depends on: import
 your trades, [write daily recaps, and tag consistently](/docs/guide/recaps-and-tags). That
-context is exactly what makes the coach useful when it lands — follow the
-[Roadmap](/docs/roadmap) to see it come together.
+context is exactly what the coach reads when you ask for a review — follow the
+[Roadmap](/docs/roadmap) to see the rest come together.

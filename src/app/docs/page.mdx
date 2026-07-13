@@ -27,7 +27,7 @@ The app is organized around a simple daily rhythm:
   today.*
 - **Coach** *(in development)* — an AI reviewer that reads your trades against the rules
   *you* define and drafts a recap and feedback in your voice, which you always edit before
-  it saves.
+  it saves. An early version runs today with your own OpenAI key.
 - **Dashboard** *(in development)* — carries the lesson from your last session into the
   next one, with reminders, check-ins, and your current focus.
 
@@ -37,8 +37,9 @@ into a focused lesson, and the dashboard brings that lesson back when it matters
 ## What makes it different
 
 - **Your data stays on your machine.** Everything lives in a local SQLite file in your
-  project folder. There's no hosted account and nothing is uploaded unless you choose to
-  deploy or share it yourself.
+  project folder. There's no hosted account, and nothing is uploaded unless you choose to —
+  by deploying it yourself, or by asking the [AI coach](/docs/guide/ai-coach) for a review,
+  which sends that session to the model provider you configured under your own key.
 - **No signup, no subscription.** It's a personal tool you run locally, not a service you
   rent.
 - **Open source (MIT).** Download it, fork it, run it, or use it as the starting point

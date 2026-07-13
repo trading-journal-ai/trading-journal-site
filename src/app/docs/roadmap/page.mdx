@@ -39,13 +39,17 @@ These are in progress or planned — treat them as direction, not shipped featur
   them as context. It turns scattered reviews into a personal reference for what you trade,
   how you trade it, and what invalidates it.
 - **AI coach** — a review assistant that reads your trades, notes, tags, charts, and rules
-  to give feedback that's specific to *you* rather than generic advice. Currently an early
-  preview; see [The AI Coach](/docs/guide/ai-coach).
+  to give feedback that's specific to *you* rather than generic advice. An early version
+  already runs with your own OpenAI key; deeper rule-checking and more providers are in
+  progress. See [The AI Coach](/docs/guide/ai-coach).
 - **Setup workspace (Settings)** — one place to connect an import source, add your own
   language-model API key, complete a trader self-assessment, define your rules, and tune
-  coach preferences.
+  coach preferences. The first pieces — connecting a model provider and editing your
+  playbook — are in Settings today.
 - **Dictation-first capture** — speak the context behind a trade instead of typing it,
-  since it's often faster and more honest.
+  since it's often faster and more honest. A first version has landed in ticker review,
+  transcribed by a local (on-your-machine) speech model so audio never leaves your
+  computer; it's expanding to more surfaces.
 - **Image & video evidence** — attach chart screenshots, marked-up levels, and selective
   screen recordings to trades as part of the record and coach context.
 - **More broker adapters** — expanding the set of broker exports that map cleanly into the

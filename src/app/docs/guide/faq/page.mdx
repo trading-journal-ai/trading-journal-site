@@ -21,8 +21,8 @@ get committed by accident.
 
 The app is free and open source under the [MIT License](/docs/license) — no subscription, no
 signup. Two optional integrations use your own keys: a free [Massive](https://www.massive.com/)
-key for chart candles, and (when the coach lands) your own language-model API key, which you
-pay your provider for directly.
+key for chart candles, and — if you use the AI coach — your own language-model API key, which
+you pay your provider for directly.
 
 ## Do I need to be a developer to use it?
 
@@ -40,10 +40,13 @@ Other brokers may need a small adapter — see
 
 ## Does the AI coach see or send my trades anywhere?
 
-The coach is [still in development](/docs/guide/ai-coach). By design it runs on **your own**
-language-model API key, locally, and drafts feedback you edit before anything saves — your
-trades aren't handed to a hosted service to make it work. Because the project is open source,
-you can read exactly how it behaves.
+Only when you ask it to, and only to a provider you chose. Nothing is sent automatically:
+if you haven't configured a model API key, no trade data ever leaves your machine. When you
+do configure a key (OpenAI today; [more providers planned](/docs/guide/ai-coach)) and request
+a review, the trades, notes, and tags for that session are sent to that provider under
+**your own key** — never through our servers. Every draft the coach writes comes back for
+you to edit before it saves. Because the project is open source, you can read exactly what
+gets sent and when.
 
 ## Where do the charts get their data?
 
