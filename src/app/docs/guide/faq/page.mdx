@@ -1,0 +1,71 @@
+export const metadata = {
+  title: "FAQ",
+  description: "Common questions about privacy, cost, brokers, and running Trading Journal AI.",
+};
+
+# FAQ
+
+Short answers to the things people ask most. The app is under
+[active development](/docs/roadmap), so if something here and the
+[repository](https://github.com/trading-journal-ai/trading-journal) disagree, the repository
+is the most current source.
+
+## Is my trading data private?
+
+Yes. Everything you create is stored in a local SQLite database (`data/journal.db`) on your
+own machine. There's no hosted account, and nothing is uploaded unless you deliberately
+deploy or share it. Your broker exports, uploads, and API keys are gitignored so they don't
+get committed by accident.
+
+## Does it cost anything?
+
+The app is free and open source under the [MIT License](/docs/license) — no subscription, no
+signup. Two optional integrations use your own keys: a free [Massive](https://www.massive.com/)
+key for chart candles, and (when the coach lands) your own language-model API key, which you
+pay your provider for directly.
+
+## Do I need to be a developer to use it?
+
+No — but you'll use a terminal briefly to install it. If you can copy and paste a few
+commands, you can get it running; day to day it's a normal app in your browser. You'll need
+**Node.js 20+**. If you'd rather look first, start with the
+[live demo](https://demo.trading-journal.ai/demo).
+
+## Which brokers can I import from?
+
+**ThinkorSwim/Schwab** account statement exports work best (fill-level detail). **DAS-style**
+and **TraderVue-style** trade-summary CSVs are also supported as medium-confidence imports.
+Other brokers may need a small adapter — see
+[Importing your trades](/docs/guide/importing-trades).
+
+## Does the AI coach see or send my trades anywhere?
+
+The coach is [still in development](/docs/guide/ai-coach). By design it runs on **your own**
+language-model API key, locally, and drafts feedback you edit before anything saves — your
+trades aren't handed to a hosted service to make it work. Because the project is open source,
+you can read exactly how it behaves.
+
+## Where do the charts get their data?
+
+Charts use TradingView's open-source Lightweight Charts for display, and candle data comes
+from [Massive](https://www.massive.com/) (a free plan is enough). Your broker import provides
+the entry/exit markers; Massive provides the market candles behind them. Skip the key and the
+app still runs — you just won't fetch new candles until you add one.
+
+## Can I lose my journal?
+
+Your entries live in `data/journal.db`, which is separate from the app's code, so
+[updating](/docs/getting-started/updating) doesn't overwrite them. The best protection is a
+simple habit: copy the `data/` folder somewhere safe now and then.
+
+## Can I run it on my own server?
+
+You can — it's your code and your data. Just remember that deploying it moves your journal off
+your local machine, which is a deliberate trade-off against the local-first default. The
+hosted demo runs this same app with demo data and read-only settings.
+
+## How is this different from my broker's built-in journal?
+
+Two things: it's **journal-first** (the story of your day leads, not a table of numbers), and
+it's **yours** (private, open source, and — as the roadmap fills in — shaped around your own
+rules and vocabulary rather than a fixed template).

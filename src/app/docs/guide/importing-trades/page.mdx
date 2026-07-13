@@ -1,0 +1,64 @@
+export const metadata = {
+  title: "Importing Your Trades",
+  description: "Bring trades in from a broker CSV instead of retyping them.",
+};
+
+# Importing Your Trades
+
+Rather than retyping trades, you bring them in from a CSV your broker already gives you.
+Trading Journal AI reads that export and turns it into one normalized trade format that the
+journal, charts, calendar, and reports all use.
+
+## How importing works
+
+Behind the scenes, your file goes through a short pipeline so broker-specific quirks don't
+leak into the rest of the app:
+
+1. **Inspect** the file to see its source and shape.
+2. **Normalize** it with an adapter for that broker.
+3. **Preview** the result with diagnostics and a confidence level.
+4. **Persist** the trades and executions once the shape looks right.
+
+In practice you export a CSV, point **Import** at it, and review the grouped trades — the
+fills for one position are grouped into a single trade with its executions tucked
+underneath, so you're not staring at a wall of rows.
+
+## Which brokers work
+
+- **ThinkorSwim / Schwab** — the strongest path. Use the account statement export,
+  especially the **Account Trade History** section. These imports preserve fill-level
+  executions, match them into round-trip trades, attach fees where the statement exposes
+  them, and dedupe repeated imports.
+- **DAS-style and TraderVue-style** trade-summary CSVs — supported, and useful for review.
+  They're treated as **medium-confidence** because they usually summarize a trade rather
+  than exposing every underlying fill.
+- **Other brokers** — your export may not work immediately. Broker CSVs differ in column
+  names, timestamps, side labels, and fee fields, so a new broker usually needs a small
+  **adapter** that maps its format into the app's shared trade format.
+
+<Note title="Using a broker that isn't listed?">
+You won't need to write code, but you may need a hand teaching the importer how to read
+your broker's CSV. The direction is an assisted workflow: inspect the file locally, show
+what the app understands, preview the normalized rows, and only import once the shape looks
+right. Automated broker syncing and live order execution are intentionally out of scope.
+</Note>
+
+## Fills, trades, and days
+
+It helps to know the three levels you'll move between:
+
+- **Fill** — a single execution (a partial buy or sell).
+- **Trade** — all the fills for one position, grouped with your note and tags.
+- **Day** — every trade for a session, with your recap on top.
+
+## A note on charts
+
+Your broker CSV supplies the **execution markers** (symbol, time, side, shares, price). The
+candles behind them come from a separate market-data source, so charts fill in once that's
+configured during install. Reviewing your trades, P&L, and notes works regardless.
+
+## Tips for clean imports
+
+- Export a **consistent date range** (a day or a week at a time) so nothing overlaps.
+- Keep the original CSVs until you've confirmed the import looks right.
+- If numbers look off, check the timezone and currency your broker exported in.

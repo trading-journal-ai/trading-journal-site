@@ -1,0 +1,53 @@
+export const metadata = {
+  title: "The AI Coach",
+  description: "The review assistant being built into Trading Journal AI — the vision and how it will work.",
+};
+
+# The AI Coach
+
+<Note title="In development">
+The coach is an **early preview**, not a finished feature. In the hosted demo you'll see
+seeded examples of what a coach review looks like; live, on-your-trades coaching is still
+being built. This page describes where it's headed so the direction is clear.
+</Note>
+
+The coach is a post-trade review assistant that reads the context you've already
+captured — your trades, notes, tags, charts, and rules — and helps summarize what worked,
+what didn't, and what to focus on next. The aim is feedback that's specific to *you* rather
+than generic trading advice.
+
+## Codify your edge first
+
+The coach works best against a standard *you* define. The planned home for that is a setup
+workspace in **Settings**, where you'll be able to:
+
+- add your own language-model API key (the coach runs on your key, on your machine),
+- complete a short trader self-assessment,
+- define your rules and setups, and
+- tune how the coach reviews.
+
+That rubric is what turns "was this a good trade?" into "did this match *my* A+ setup?"
+
+## How a review will work
+
+Once your rules are in place, asking the coach to review a trade or a day will:
+
+- read the trade against your criteria,
+- point to where you followed your plan and where you drifted, and
+- draft a recap and feedback in your voice.
+
+## You always stay in control
+
+This principle holds throughout the design:
+
+- The coach **proposes**; it never posts on its own.
+- Every recap and note arrives as a **draft** you read and edit.
+- It runs locally against your own API key — your trades aren't handed to a hosted service
+  to make this work.
+
+## What you can do today
+
+While the coach matures, the most valuable thing is to build the habit it depends on: import
+your trades, [write daily recaps, and tag consistently](/docs/guide/recaps-and-tags). That
+context is exactly what makes the coach useful when it lands — follow the
+[Roadmap](/docs/roadmap) to see it come together.

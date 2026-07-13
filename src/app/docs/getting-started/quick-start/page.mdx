@@ -1,0 +1,56 @@
+export const metadata = {
+  title: "Quick Start",
+  description: "Your first review, from import to recap, in about ten minutes.",
+};
+
+# Quick Start
+
+Once the app is running, here's the shortest path to seeing what it's for. Plan on about ten
+minutes for your first pass.
+
+## 1. Get some trades in
+
+You have two easy starting points:
+
+- **Demo data** — if you installed with the demo option, a full sample day is already there
+  to practice on.
+- **Your own trades** — export a CSV of your fills from your broker and use **Import** in
+  the app. Fills are grouped into round-trip trades automatically. ThinkorSwim/Schwab
+  exports work best; see [Importing your trades](/docs/guide/importing-trades) for the
+  details.
+
+## 2. Open the day and write a recap
+
+Go to a day and, before touching individual trades, write a couple of sentences on how the
+session went — the market read, how you executed, the one lesson. The recap leads; the
+trades, P&L chart, and ticker list sit beside it for reference.
+
+## 3. Review a trade and tag it
+
+Open a trade to see its chart, executions, and note. Write a short note and tap the pills
+that fit: one quality call, plus the process and emotion behind it. Reusing the same tags
+each day is what makes patterns searchable later — see
+[Daily recaps & tags](/docs/guide/recaps-and-tags).
+
+## 4. Build the habit
+
+The whole point is a review you'll actually repeat. A short recap every trading day beats a
+big one once a month.
+
+<Note title="The coach is coming">
+An AI coach that reviews trades against your own rules and drafts feedback is
+[in development](/docs/guide/ai-coach). For now, the value is in the fast, structured
+review habit — the coach builds on exactly that.
+</Note>
+
+## Handy commands
+
+Run these from inside the `trading-journal` folder:
+
+```bash
+npm run dev          # start the app again later
+npm run dev:restart  # restart if a dev server is stuck
+npm run dev:stop     # stop the running dev server
+```
+
+Stopping the app never deletes your data — your journal lives in a SQLite file on disk.
