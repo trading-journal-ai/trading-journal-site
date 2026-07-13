@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation";
 const demoUrl = process.env.NEXT_PUBLIC_DEMO_URL ?? "https://demo.trading-journal.ai/demo";
 
 // The site-wide global nav. Shared by the landing page and the docs section so
-// they read as one app. Section links point at "/#…" so they work from any route;
-// the container widens on docs to line up with the three-column layout.
+// they read as one app. The landing page gets scroll-section links; docs swaps
+// them for a single Home link since the anchors only make sense mid-scroll.
+// The container widens on docs to line up with the three-column layout.
 export function SiteHeader() {
   const pathname = usePathname();
   const inDocs = pathname.startsWith("/docs");
@@ -25,15 +26,23 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary" className="flex items-center gap-5 text-[13.5px] font-medium text-[var(--body)] md:gap-7">
-          <Link href="/#review" className="hidden transition-colors hover:text-[var(--foreground)] md:inline">
-            The review habit
-          </Link>
-          <Link href="/#coach" className="hidden transition-colors hover:text-[var(--foreground)] md:inline">
-            Coach
-          </Link>
-          <Link href="/#local" className="hidden transition-colors hover:text-[var(--foreground)] lg:inline">
-            Local-first
-          </Link>
+          {inDocs ? (
+            <Link href="/" className="hidden transition-colors hover:text-[var(--foreground)] sm:inline">
+              Home
+            </Link>
+          ) : (
+            <>
+              <Link href="/#review" className="hidden transition-colors hover:text-[var(--foreground)] md:inline">
+                The review habit
+              </Link>
+              <Link href="/#coach" className="hidden transition-colors hover:text-[var(--foreground)] md:inline">
+                Coach
+              </Link>
+              <Link href="/#local" className="hidden transition-colors hover:text-[var(--foreground)] lg:inline">
+                Local-first
+              </Link>
+            </>
+          )}
           <Link
             href="/docs"
             aria-current={inDocs ? "page" : undefined}
