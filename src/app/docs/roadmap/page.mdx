@@ -1,0 +1,67 @@
+export const metadata = {
+  title: "Roadmap",
+  description: "What Trading Journal AI solves, what works today, and what's coming.",
+};
+
+# Roadmap
+
+Trading Journal AI is in **active development**. The core review workflow is already
+usable, and a larger vision is taking shape around it. This page is honest about which
+is which — expect rough edges while things roll out.
+
+## The problem we're solving
+
+Most trading journals start with a table of numbers, so review becomes data entry and the
+*why* behind each trade gets lost. Lessons end up scattered across spreadsheets, broker
+platforms, and screenshots you never look at again.
+
+The bet here is different: repeated, low-friction review should **compound into a personal
+playbook** — what you trade, how you trade it, what invalidates it, and whether the data
+says your edge is actually improving. Notes become context, context becomes rules, rules
+become coaching, and coaching feeds a better next review.
+
+## What works today
+
+You can use these right now:
+
+- **Import broker trades** from a CSV and have fills grouped into round-trip trades.
+- **Review sessions** at the day, ticker, and single-trade level.
+- **Write daily recaps** and **tag trades** in your own vocabulary.
+- **Charts** with candles and trade markers, plus calendar and reports for context.
+- **Explore demo data** to see the whole flow before importing your own.
+
+## What's coming
+
+These are in progress or planned — treat them as direction, not shipped features:
+
+- **The playbook** — the heart of where this is going. Define your setups, patterns, process
+  rules, and review criteria once, and the journal, analytics, and coach can all draw on
+  them as context. It turns scattered reviews into a personal reference for what you trade,
+  how you trade it, and what invalidates it.
+- **AI coach** — a review assistant that reads your trades, notes, tags, charts, and rules
+  to give feedback that's specific to *you* rather than generic advice. Currently an early
+  preview; see [The AI Coach](/docs/guide/ai-coach).
+- **Setup workspace (Settings)** — one place to connect an import source, add your own
+  language-model API key, complete a trader self-assessment, define your rules, and tune
+  coach preferences.
+- **Dictation-first capture** — speak the context behind a trade instead of typing it,
+  since it's often faster and more honest.
+- **Image & video evidence** — attach chart screenshots, marked-up levels, and selective
+  screen recordings to trades as part of the record and coach context.
+- **More broker adapters** — expanding the set of broker exports that map cleanly into the
+  app's shared trade format.
+
+## Why the playbook matters
+
+The playbook is the connective tissue in the compounding loop. Your own examples, rules,
+mistakes, and setup definitions become the context the journal, analytics, and coach all draw
+on — so each review makes the next one sharper. It's the difference between a static journal
+template and a review system that grows with you: notes become context, context becomes
+rules, rules become coaching, and coaching feeds a better next review.
+
+<Note title="Where the roadmap really lives">
+This page mirrors the direction described in the app's
+[README and Active Roadmap](https://github.com/trading-journal-ai/trading-journal). Because
+the project moves quickly, the repository is the most up-to-date source for what's landed
+since — and a good place to leave feedback that shapes what's next.
+</Note>

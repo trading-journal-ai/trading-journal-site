@@ -1,0 +1,73 @@
+export const metadata = {
+  title: "Installation",
+  description: "Get Trading Journal AI running on your own machine.",
+};
+
+# Installation
+
+Trading Journal AI runs locally on your computer. Setup is a few commands in a terminal —
+you don't need to be a developer, but you will copy and paste a little.
+
+<Note title="Just want to look around first?">
+You don't have to install anything to try it. The
+[live demo](https://demo.trading-journal.ai/demo) runs this same app with demo data, so you
+can explore the whole flow in your browser.
+</Note>
+
+## What you'll need
+
+- **Node.js 20 or newer** and **npm** (they come together).
+- **Git** and a terminal to run commands in.
+- **Optional:** a free [Massive](https://www.massive.com/) API key for candlestick chart
+  data. You can skip it and add it later — the app still runs, you just won't be able to
+  fetch new chart candles until you add one.
+
+## Install
+
+Open a terminal and run:
+
+```bash
+git clone https://github.com/trading-journal-ai/trading-journal.git
+cd trading-journal
+./install-trading-journal.sh
+```
+
+Run the installer from *inside* the `trading-journal` folder. If you see
+`no such file or directory`, you're probably one folder too high — run `cd trading-journal`
+first, then try again.
+
+The installer walks you through everything and, when it's done, starts the app and prints
+the local address (usually [http://localhost:3000](http://localhost:3000)). Along the way it:
+
+- installs the project's dependencies,
+- lets you choose **demo data** or an **empty journal** for your own broker CSV,
+- lets you add a **Massive API key** or skip chart fetching for now,
+- creates the local SQLite database, and
+- starts the app on localhost.
+
+Nothing is installed globally — everything it creates stays inside the project folder.
+
+## Two ways to start
+
+The installer offers two modes:
+
+- **Trading Journal Demo** — loads sample trades and notes so you can preview the app
+  immediately.
+- **Trading Journal** — creates an empty local journal, ready for your own
+  [imported trades](/docs/guide/importing-trades).
+
+## Where your data lives
+
+Everything you create is stored on your machine and kept out of version control. The
+gitignored files include:
+
+```text
+data/journal.db        # your journal (SQLite)
+data/uploads/          # attachments
+.env.local             # your Massive API key
+```
+
+For a backup, copy the `data/` folder somewhere safe. Real broker exports should never be
+committed — they can contain account numbers and full trade history.
+
+Next, walk through your first review in the [Quick Start](/docs/getting-started/quick-start).

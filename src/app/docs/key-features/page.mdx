@@ -1,0 +1,67 @@
+export const metadata = {
+  title: "Key Features",
+  description: "The main things Trading Journal AI does, at a glance.",
+};
+
+# Key Features
+
+A quick tour of what you get. Each of these has its own guide later on — this page is
+just the overview. The app is under [active development](/docs/roadmap); items marked
+*in development* describe where things are headed.
+
+## A journal-first review habit
+
+Most tools put a table of numbers first. Trading Journal AI puts the **story of your day**
+first: a short recap, the trades beside it for reference, and the week and month as
+containers you can scroll back through. The goal is to make reviewing fast enough that you
+actually do it every day.
+
+## Tagging in your own language
+
+After a trade, write a sentence and tap the pills that fit — one quality call, plus the
+process and emotion behind it. Because you reuse the **same vocabulary** every session,
+patterns become searchable instead of buried in prose. "Show me every trade I tagged
+*FOMO*" becomes a real question you can answer.
+
+## Charts, calendar & reports
+
+Every trade opens with candles and entry/exit markers. A daily P&L chart, a calendar view,
+and reports sit alongside the writing so the numbers that shaped a session are close without
+taking over.
+
+## Your playbook *(in development)*
+
+Define your setups, patterns, process rules, and review criteria once, and the journal,
+analytics, and coach can all use them as context. The playbook is the connective tissue of
+the whole system — it turns scattered reviews into a personal reference for what you trade,
+how you trade it, and what invalidates it. See the [Roadmap](/docs/roadmap#why-the-playbook-matters).
+
+## An AI coach that follows your rules *(in development)*
+
+The plan: you codify what an A+ trade looks like — the entry, risk, and process criteria you
+already track (your [playbook](/docs/roadmap#why-the-playbook-matters)) — and the coach reads
+each trade against *that* standard, flags where you drifted, and drafts feedback in your
+voice. It runs on your own API key, locally, and every draft is yours to edit before it
+saves. It's an early preview today — see [The AI Coach](/docs/guide/ai-coach).
+
+## The learning loop *(in development)*
+
+The direction is three surfaces that stay connected so lessons don't disappear into archived
+notes:
+
+- **Journal** captures the day *(available today)*.
+- **Coach** turns it into a focused lesson.
+- **Dashboard** carries that lesson into your next session and collects the check-ins that
+  start the loop again.
+
+## Local-first by design
+
+Everything is stored in a local SQLite file in your project folder. Your broker exports and
+notes are gitignored. It runs on your machine, so your review habit stays private unless you
+deliberately deploy or share it.
+
+## Import from your broker
+
+Bring trades in from a broker CSV export rather than retyping them. Fills are grouped into
+trades automatically so you can review at the level that makes sense — the day, the ticker,
+or a single trade. See [Importing your trades](/docs/guide/importing-trades).

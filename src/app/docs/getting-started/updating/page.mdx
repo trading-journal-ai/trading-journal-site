@@ -1,0 +1,45 @@
+export const metadata = {
+  title: "Updating",
+  description: "Pull the latest version without losing your journal.",
+};
+
+# Updating
+
+Because you run Trading Journal AI from a cloned repository, updating means pulling the
+latest code and refreshing dependencies. Your journal data is separate from the code, so
+updates don't overwrite your entries.
+
+## Update your copy
+
+From inside the `trading-journal` folder:
+
+```bash
+git pull
+npm install
+npm run dev
+```
+
+`git pull` fetches the newest version, `npm install` picks up any new or changed
+dependencies, and `npm run dev` starts the app again. Re-running the installer
+(`./install-trading-journal.sh`) also works and will walk you through the same steps.
+
+## If a release changes the database
+
+Occasionally an update changes how data is stored. If the app mentions a pending database
+change after you pull, apply it with:
+
+```bash
+npm run db:migrate
+```
+
+<Note title="Expect rough edges">
+The app is under [active development](/docs/roadmap) and moving quickly, so it's worth
+skimming the repository's release notes before a big update — especially if you've been away
+for a while — and following any migration steps listed there.
+</Note>
+
+## Back up first
+
+Your entries live in `data/journal.db`, which isn't touched by `git pull`. Even so, the
+safest habit before a large update is to copy the `data/` folder somewhere safe. If anything
+goes wrong, restoring that folder gets you back to a working state.

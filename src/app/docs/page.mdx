@@ -1,0 +1,58 @@
+export const metadata = {
+  title: "Project Overview",
+  description: "What Trading Journal AI is, who it's for, and the ideas behind it.",
+};
+
+# Project Overview
+
+Trading Journal AI is a **local-first, open-source trading journal** with an AI coach in
+development. It helps you organize your trades so they're easy to find, tag, and reflect
+on — and it turns that daily review into a habit instead of a chore.
+
+If you've ever kept notes in a spreadsheet, a broker platform, or a pile of screenshots
+and then never looked at them again, this is built for you.
+
+<Note title="Under active development">
+The core review workflow — import, review, recap, and tagging — works today. The AI coach,
+rules and playbooks, and richer capture are still being built. See the
+[Roadmap](/docs/roadmap) for what's shipped versus what's coming.
+</Note>
+
+## What it does
+
+The app is organized around a simple daily rhythm:
+
+- **Journal** — import your trades, write a short recap of the day, and tag each trade
+  in your own language (what the setup was, how you executed, how you felt). *Available
+  today.*
+- **Coach** *(in development)* — an AI reviewer that reads your trades against the rules
+  *you* define and drafts a recap and feedback in your voice, which you always edit before
+  it saves.
+- **Dashboard** *(in development)* — carries the lesson from your last session into the
+  next one, with reminders, check-ins, and your current focus.
+
+Together these form a learning loop: the journal captures the day, the coach turns it
+into a focused lesson, and the dashboard brings that lesson back when it matters.
+
+## What makes it different
+
+- **Your data stays on your machine.** Everything lives in a local SQLite file in your
+  project folder. There's no hosted account and nothing is uploaded unless you choose to
+  deploy or share it yourself.
+- **No signup, no subscription.** It's a personal tool you run locally, not a service you
+  rent.
+- **Open source (MIT).** Download it, fork it, run it, or use it as the starting point
+  for your own journal.
+
+## Who it's for
+
+Active traders who want a private, structured review habit — especially anyone who cares
+about keeping sensitive account history off someone else's server. You don't need to be
+a developer to use it, though you will run a couple of commands to install it the first
+time.
+
+<Note title="New here?">
+The fastest way to get a feel for it is the [live demo](https://demo.trading-journal.ai/demo),
+which comes loaded with seeded trades and notes. When you're ready to run your own,
+head to [Installation](/docs/getting-started/installation).
+</Note>
