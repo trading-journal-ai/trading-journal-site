@@ -14,9 +14,9 @@ function readTheme(): "dark" | "daylight" {
 }
 
 export function ThemeToggle() {
-  // Server + first client render resolve to "dark" (the default, no data-theme),
-  // matching the no-flash script's baseline, then sync to the live DOM attribute.
-  const theme = useSyncExternalStore(subscribeTheme, readTheme, () => "dark");
+  // Server + first client render resolve to daylight, matching the default HTML
+  // attribute; the live DOM then reflects any explicit saved dark preference.
+  const theme = useSyncExternalStore(subscribeTheme, readTheme, () => "daylight");
 
   const apply = (next: "dark" | "daylight") => {
     if (next === "daylight") {

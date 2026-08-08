@@ -54,15 +54,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme="daylight"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <body>
-        {/* Apply the stored theme before paint so daylight users don't flash dark. */}
+        {/* Respect an explicit saved choice before paint; new visitors stay daylight. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var t=localStorage.getItem('tj-theme');if(t==='daylight')document.documentElement.setAttribute('data-theme','daylight');}catch(e){}",
+              "try{var t=localStorage.getItem('tj-theme');if(t==='dark')document.documentElement.removeAttribute('data-theme');else document.documentElement.setAttribute('data-theme','daylight');}catch(e){}",
           }}
         />
         {children}

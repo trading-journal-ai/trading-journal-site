@@ -1,13 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { SiteHeader } from "./components/site-header";
 import { ThemeToggle } from "./components/theme-toggle";
 
 const githubUrl = "https://github.com/trading-journal-ai/trading-journal";
-const demoUrl = process.env.NEXT_PUBLIC_DEMO_URL ?? "https://demo.trading-journal.ai/demo";
+
+// Keep the section available for a future marketing pass without mounting its
+// observer or animation while the current story is intentionally hidden.
+const showLearningLoop = false;
 
 const installCommand = `git clone ${githubUrl}.git
 cd trading-journal
@@ -63,7 +65,7 @@ export default function LandingPage() {
         <Hero />
         <ReviewHabit />
         <CoachSection />
-        <LearningLoopSection />
+        {showLearningLoop ? <LearningLoopSection /> : null}
         <LocalFirstSection />
         <GetStartedSection />
       </main>
@@ -76,16 +78,6 @@ export default function LandingPage() {
 function Hero() {
   return (
     <section className="relative isolate overflow-hidden border-b border-[var(--hairline)]">
-      <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-30 hidden h-[620px] overflow-hidden md:block md:h-[670px] lg:h-[720px]">
-        <div
-          className="tj-hero-product absolute left-1/2 top-0 h-full w-[calc(100%-3rem)] max-w-[1136px] -translate-x-1/2 bg-[length:auto_94%] bg-[right_top] bg-no-repeat opacity-85 md:w-[calc(100%-4rem)]"
-          style={{ backgroundImage: "url(/landing-page/trading-journal-hero.png)" }}
-        />
-        <div className="tj-hero-fade-x absolute inset-0" />
-        <div className="tj-hero-fade-y absolute inset-0" />
-        <div className="tj-hero-atmosphere absolute left-1/2 top-0 h-[calc(100%-40px)] w-[calc(100%-3rem)] max-w-[1136px] -translate-x-1/2 md:w-[calc(100%-4rem)]" />
-      </div>
-
       <div className="mx-auto w-full max-w-[1200px] px-6 pb-12 pt-16 md:px-8 md:pt-[72px] lg:pb-14">
         <div className="max-w-[760px]">
           <SectionEyebrow className="text-[11.5px] text-[var(--accent)]">
@@ -101,10 +93,7 @@ function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3.5 sm:flex-row sm:items-center">
-            <PrimaryButton href={demoUrl}>View the live demo</PrimaryButton>
-            <GhostButton href={githubUrl}>
-              View on GitHub
-            </GhostButton>
+            <PrimaryButton href={githubUrl}>View on GitHub</PrimaryButton>
           </div>
           <p className="mt-[18px] text-[13px] text-[var(--muted)]">
             No signup · No subscription · Your data stays on your machine
@@ -792,17 +781,14 @@ function GetStartedSection() {
       <div className="mx-auto w-full max-w-[900px] px-6 py-24 text-center md:px-8">
         <SectionEyebrow>Get started</SectionEyebrow>
         <h2 className="mx-auto mt-5 max-w-[760px] text-balance text-[32px] font-semibold leading-[1.08] tracking-[-0.025em] md:text-[42px]">
-          Try the demo, or run your own in two minutes.
+          Run your own in two minutes.
         </h2>
         <p className="mx-auto mt-[22px] max-w-[560px] text-pretty text-[17px] leading-[1.6] text-[var(--prose,#99a3b1)]">
-          Explore the hosted demo with seeded trades and journal notes, or clone the repo
-          and start a private local journal with your own broker CSV.
+          Clone the open-source repo and start a private local journal with your own
+          broker CSV or the included sample data.
         </p>
         <div className="mt-9 flex flex-col justify-center gap-3.5 sm:flex-row">
-          <PrimaryButton href={demoUrl}>View the live demo</PrimaryButton>
-          <GhostButton href={githubUrl}>
-            View on GitHub
-          </GhostButton>
+          <PrimaryButton href={githubUrl}>View on GitHub</PrimaryButton>
         </div>
         <InstallCommand />
       </div>
@@ -851,9 +837,6 @@ function SiteFooter() {
           <span className="ml-1.5 text-[13px] text-[var(--faint)]">trading-journal.ai</span>
         </div>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-4 text-[13px] text-[var(--muted)]">
-          <Link href={demoUrl} className="transition-colors hover:text-[var(--foreground)]">
-            Demo
-          </Link>
           <a
             href={githubUrl}
             rel="noreferrer"
@@ -1052,8 +1035,7 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
         </div>
         <div className="flex flex-1 justify-center">
           <div className="flex items-center gap-1.5 rounded-md border border-[var(--hairline)] bg-[var(--background)] px-3.5 py-1 font-mono text-xs text-[var(--muted)]">
-            <LockGlyph />
-            demo.trading-journal.ai/demo
+            localhost:3000
           </div>
         </div>
         <div className="w-[52px]" />
@@ -1258,25 +1240,14 @@ function SectionEyebrow({
 
 function PrimaryButton({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link
-      href={href}
-      className="inline-flex h-12 items-center justify-center gap-2 rounded-[9px] bg-[var(--foreground)] px-[22px] text-[15px] font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
-    >
-      {children}
-      <ArrowRight className="ml-0" />
-    </Link>
-  );
-}
-
-function GhostButton({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
     <a
       href={href}
       rel="noreferrer"
       target="_blank"
-      className="inline-flex h-12 items-center justify-center gap-2 rounded-[9px] border border-[var(--border)] px-[22px] text-[15px] font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--muted)] hover:bg-[var(--surface)]"
+      className="inline-flex h-12 items-center justify-center gap-2 rounded-[9px] bg-[var(--foreground)] px-[22px] text-[15px] font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
     >
       {children}
+      <ArrowRight className="ml-0" />
     </a>
   );
 }
@@ -1286,15 +1257,6 @@ function ArrowRight({ className = "ml-3" }: { className?: string }) {
     <svg className={`${className} size-4`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M5 12h14" />
       <path d="m13 6 6 6-6 6" />
-    </svg>
-  );
-}
-
-function LockGlyph() {
-  return (
-    <svg className="size-[11px]" viewBox="0 0 14 14" fill="none" stroke="var(--accent)" strokeWidth="1.6" aria-hidden="true">
-      <rect x="3" y="6.5" width="8" height="5.5" rx="1" />
-      <path d="M4.5 6.5V4.5a2.5 2.5 0 0 1 5 0v2" />
     </svg>
   );
 }
