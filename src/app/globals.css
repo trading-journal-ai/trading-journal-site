@@ -65,55 +65,6 @@ html {
   background: color-mix(in srgb, var(--background) 75%, transparent);
 }
 
-/* Hero image fades — blend the product screenshot into the page ground.
-   Token-based so the fade lands on charcoal in dark and cream in daylight. */
-.tj-hero-fade-x {
-  background: linear-gradient(
-    90deg,
-    var(--background) 0%,
-    color-mix(in srgb, var(--background) 96%, transparent) 30%,
-    color-mix(in srgb, var(--background) 78%, transparent) 52%,
-    color-mix(in srgb, var(--background) 34%, transparent) 78%,
-    color-mix(in srgb, var(--background) 16%, transparent) 100%
-  );
-}
-
-.tj-hero-fade-y {
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    color-mix(in srgb, var(--background) 24%, transparent) 58%,
-    var(--background) 100%
-  );
-}
-
-.tj-hero-atmosphere {
-  background: radial-gradient(circle at 72% 36%, rgba(89, 230, 158, 0.12), transparent 34%);
-}
-
-/* Daylight is deliberately neutral: soften the screenshot's green cast and
-   dissolve its left boundary before the cream overlay takes over. */
-:root[data-theme="daylight"] .tj-hero-product {
-  filter: saturate(0.88) sepia(0.03);
-  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.25) 24%, #000 49%, #000 100%);
-  opacity: 1;
-}
-
-:root[data-theme="daylight"] .tj-hero-fade-x {
-  background: linear-gradient(
-    90deg,
-    var(--background) 0%,
-    color-mix(in srgb, var(--background) 96%, transparent) 28%,
-    color-mix(in srgb, var(--background) 74%, transparent) 49%,
-    color-mix(in srgb, var(--background) 30%, transparent) 72%,
-    transparent 100%
-  );
-}
-
-:root[data-theme="daylight"] .tj-hero-atmosphere {
-  background: radial-gradient(circle at 72% 36%, rgba(121, 104, 81, 0.07), transparent 36%);
-}
-
 /* The daylight browser mockup needs a diffuse paper-like lift, not a dense shelf. */
 .tj-browser-frame {
   box-shadow: var(--browser-frame-shadow);

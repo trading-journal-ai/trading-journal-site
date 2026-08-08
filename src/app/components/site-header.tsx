@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const demoUrl = process.env.NEXT_PUBLIC_DEMO_URL ?? "https://demo.trading-journal.ai/demo";
+const githubUrl = "https://github.com/trading-journal-ai/trading-journal";
 
 // The site-wide global nav. Shared by the landing page and the docs section so
 // they read as one app. The landing page gets scroll-section links; docs swaps
@@ -52,12 +52,14 @@ export function SiteHeader() {
           >
             Documentation
           </Link>
-          <Link
-            href={demoUrl}
+          <a
+            href={githubUrl}
+            rel="noreferrer"
+            target="_blank"
             className="inline-flex h-9 items-center rounded-lg bg-[var(--foreground)] px-4 text-[13.5px] font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
           >
-            View the demo
-          </Link>
+            GitHub
+          </a>
         </nav>
       </div>
     </header>
